@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API de Mobalitycs</title>
+    <title>Index - API of Mobalitycs</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,19 +17,28 @@
         .welcome-container {
             text-align: center;
             background: #fff;
-            padding: 30px;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .welcome-container h1 {
             color: #333;
+            margin-bottom: 20px;
         }
         .welcome-container p {
             color: #666;
-            font-size: 16px;
-            margin-bottom: 20px;
+            font-size: 18px;
+            margin-bottom: 30px;
         }
-        .welcome-container .login-button {
+        .welcome-container a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        .welcome-container a:hover {
+            text-decoration: underline;
+        }
+        .welcome-container button {
             background-color: #007BFF;
             color: #fff;
             border: none;
@@ -37,18 +46,26 @@
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
-            text-decoration: none;
+            margin-top: 20px;
         }
-        .welcome-container .login-button:hover {
+        .welcome-container button:hover {
             background-color: #0056b3;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
 <body>
     <div class="welcome-container">
-        <h1>Bienvenido a la API de Mobalitycs</h1>
-        <p>We are pleased to welcome you to the Mobalitycs API. Please log in to continue.</p>
-        <a href="/welcome/login" class="login-button">Login</a>
+        <h1>¡Welcome!</h1>
+        <p>You are now logged in. You can now continue with your activities.</p>
+        <button onclick="window.location.href='/log-viewer';">Go to logs</button>
+        <button onclick="window.location.href='/docs/api';">Go to documentation</button>
+        <form id="logout-form" action="/welcome/logout" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
     </div>
 </body>
 </html>
