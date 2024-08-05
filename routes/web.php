@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('welcome')->group(function () {
+    Route::get('/login', [WelcomeController::class, 'showLoginForm']);
+    Route::post('/login', [WelcomeController::class, 'login']);
+    Route::post('/logout', [WelcomeController::class, 'logout'])->middleware('auth');
+    Route::get('/menu', [WelcomeController::class, 'showIndex'])->middleware('auth');
 });
