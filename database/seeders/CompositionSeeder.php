@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Faker\Factory;
 
 class CompositionSeeder extends Seeder
@@ -16,13 +15,15 @@ class CompositionSeeder extends Seeder
      */
     public function run()
     {
-
         $faker = Factory::create();
+
+        $tierIds = DB::table('tiers')->pluck('id')->toArray();
+
+        $difficultyIds = DB::table('difficulties')->pluck('id')->toArray();
 
         $data = [];
 
         for ($i = 0; $i < 10; $i++) {
-
             $prio_carrusel = [];
             $num_items = rand(3, 10);
             for ($j = 0; $j < $num_items; $j++) {
@@ -35,8 +36,8 @@ class CompositionSeeder extends Seeder
                 'name' => $faker->word,
                 'sinergy' => rand(1, 5),
                 'description' => $faker->sentence,
-                'tier' => $faker->word,
-                'difficulty' => $faker->word,
+                'tier' => $faker->randomElement($tierIds),
+                'difficulty' => $faker->randomElement($difficultyIds),
                 'prio_carrusel' => $prio_carrusel_json,
                 'playing_style' => $faker->word,
                 'augments_id' => rand(1, 5),

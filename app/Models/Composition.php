@@ -35,5 +35,15 @@ class Composition extends Model
                     ->withTimestamps();
     }
 
+    public function synergies()
+    {
+        return $this->belongsToMany(Synergy::class);
+    }
+
+    public function tier()
+    {
+        return $this->belongsTo(Tier::class);
+    }
+
 }
 

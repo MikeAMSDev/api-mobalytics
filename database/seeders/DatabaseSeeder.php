@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use SynergyCompSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,17 +15,21 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class,
-            AugmentSeeder::class,
-            RecipeSeeder::class,
-            ItemSeeder::class,
             ChampionSeeder::class,
             SynergySeeder::class,
+            //SynergyCompoSeeder::class,
+            //AugmentCompoSeeder::class,
+            TierSeeder::class,
+            DifficultySeeder::class,
+            RecipeSeeder::class,
+            ItemSeeder::class,
+            AugmentSeeder::class,
             CompositionSeeder::class,
-            FormationSeeder::class,
-            UserCompoSeeder::class,
             ChampionSynergySeeder::class,
             ChampionItemSeeder::class,
+            FormationSeeder::class,
+            UserSeeder::class,
+            UserCompoSeeder::class,
         ]);
     }
 }

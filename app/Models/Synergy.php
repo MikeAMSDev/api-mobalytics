@@ -15,4 +15,9 @@ class Synergy extends Model
     {
         return $this->hasMany(Champion::class);
     }
+
+    public function compositions()
+    {
+        return $this->belongsToMany(Composition::class);
+    }
 }
