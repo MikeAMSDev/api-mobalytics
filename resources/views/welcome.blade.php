@@ -46,7 +46,7 @@
 </head>
 <body>
     <div class="welcome-container">
-        <h1>Bienvenido a la API de Mobalitycs</h1>
+        <h1>Welcome to API of Mobalitycs</h1>
         <p>We are pleased to welcome you to the Mobalitycs API. Please log in to continue.</p>
         <a href="/welcome/login" class="login-button">Login</a>
     </div>

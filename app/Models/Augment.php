@@ -15,4 +15,9 @@ class Augment extends Model
     {
         return $this->hasMany(Composition::class);
     }
+
+    public function tier()
+    {
+        return $this->belongsTo(Tier::class);
+    }
 }

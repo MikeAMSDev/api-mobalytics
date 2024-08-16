@@ -20,4 +20,9 @@ class Item extends Model
     {
         return $this->hasOne(Recipe::class);
     }
+
+    public function tier()
+    {
+        return $this->belongsTo(Tier::class);
+    }
 }
