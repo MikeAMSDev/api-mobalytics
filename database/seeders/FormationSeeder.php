@@ -14,18 +14,81 @@ class FormationSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('formations')->insert([
 
-        for ($row = 1; $row <= 4; $row++) {
-            for ($col = 1; $col <= 7; $col++) {
+            [
+                'slot_table' => 12,
+                'champion_id' => 12,
+                'compo_id' => 1,
+                'item_id' => 15,
+                'star' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 12,
+                'champion_id' => 12,
+                'compo_id' => 1,
+                'item_id' => 13,
+                'star' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 12,
+                'champion_id' => 12,
+                'compo_id' => 1,
+                'item_id' => 8,
+                'star' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 4,
+                'champion_id' => 24,
+                'compo_id' => 1,
+                'item_id' => 9,
+                'star' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 4,
+                'champion_id' => 24,
+                'compo_id' => 1,
+                'item_id' => 35,
+                'star' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 4,
+                'champion_id' => 24,
+                'compo_id' => 1,
+                'item_id' => 23,
+                'star' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 16,
+                'champion_id' => 8,
+                'compo_id' => 1,
+                'item_id' => 18,
+                'star' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'slot_table' => 16,
+                'champion_id' => 8,
+                'compo_id' => 1,
+                'item_id' => 8,
+                'star' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
 
-                DB::table('formations')->insert([
-                    'slot_table' => json_encode([$row, $col]),
-                    'champion_id' => rand(1, 3),
-                    'compo_id' => rand(1, 5),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
-        }
+        ]);
     }
 }

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             FormationSeeder::class,
             UserSeeder::class,
             UserCompoSeeder::class,
+            ItemRecipeSeeder::class,
         ]);
     }
 }
