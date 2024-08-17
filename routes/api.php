@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthAdminController;
 use App\Http\Controllers\Api\AdminUserController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('/update/{id}/update', [AdminUserController::class, 'update']);
         Route::delete('/delete/{id}/delete', [AdminUserController::class, 'destroy']);
     });
+
 });
 
 Route::group(['prefix' => 'user'], function () {
@@ -40,6 +42,10 @@ Route::group(['prefix' => 'user'], function () {
         Route::put('/update', [UserController::class, 'update']);
         Route::delete('/delete/{id}/delete', [UserController::class, 'destroy']);
     });
+});
+
+Route::group(['prefix' => 'item', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [ItemController::class, 'index']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

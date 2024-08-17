@@ -15,6 +15,7 @@ class RecipeSeeder extends Seeder
         DB::table('recipes')->insert([
             [
                 'id' => 1,
+                'item_id' => 169,
                 'name' => 'Nothing',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -22,6 +23,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 2,
+                'item_id' => 10,
                 'name' => 'Adaptive helm',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -29,6 +31,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 3,
+                'item_id' => 11,
                 'name' => 'Archangels Staff',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -36,6 +39,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 4,
+                'item_id' => 12,
                 'name' => 'Bloodthirster',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -43,6 +47,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 5,
+                'item_id' => 13,
                 'name' => 'Blue buff',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -50,6 +55,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 6,
+                'item_id' => 14,
                 'name' => 'Bramble vest',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -57,6 +63,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 7,
+                'item_id' => 15,
                 'name' => 'Crownguard',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -64,6 +71,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 8,
+                'item_id' => 16,
                 'name' => 'Deathblade',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -71,6 +79,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 9,
+                'item_id' => 17,
                 'name' => 'Dragons claw',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -78,6 +87,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 10,
+                'item_id' => 18,
                 'name' => 'Edge of night',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -85,6 +95,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 11,
+                'item_id' => 19,
                 'name' => 'Eldritch Emblem',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -92,6 +103,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 12,
+                'item_id' => 20,
                 'name' => 'Evenshroud',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -99,6 +111,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 13,
+                'item_id' => 21,
                 'name' => 'Faerie Emblem',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -106,6 +119,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 14,
+                'item_id' => 22,
                 'name' => 'Frost Emblem',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -113,6 +127,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 15,
+                'item_id' => 23,
                 'name' => 'Gargoyle Stoneplate',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -120,6 +135,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 16,
+                'item_id' => 24,
                 'name' => 'Giant Slayer',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -127,6 +143,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 17,
+                'item_id' => 25,
                 'name' => 'Guardbreaker',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -134,6 +151,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 18,
+                'item_id' => 26,
                 'name' => 'Guinsoos Rageblade',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -141,6 +159,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 19,
+                'item_id' => 27,
                 'name' => 'Hand of Justice',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -148,6 +167,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 20,
+                'item_id' => 28,
                 'name' => 'Hextech Gunblade',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -155,6 +175,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 21,
+                'item_id' => 29,
                 'name' => 'Honeymancy Emblem',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -162,6 +183,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 22,
+                'item_id' => 30,
                 'name' => 'Infinity Edge',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -169,6 +191,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 23,
+                'item_id' => 31,
                 'name' => 'Ionic Spark',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -176,6 +199,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 24,
+                'item_id' => 32,
                 'name' => 'Jeweled Gauntlet',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -183,6 +207,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 25,
+                'item_id' => 33,
                 'name' => 'Last Whisper',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -190,6 +215,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 26,
+                'item_id' => 34,
                 'name' => 'Morellonomicon',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -197,6 +223,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 27,
+                'item_id' => 35,
                 'name' => 'Nashors Tooth',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -204,6 +231,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 28,
+                'item_id' => 36,
                 'name' => 'Portal Emblem',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -211,6 +239,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 29,
+                'item_id' => 37,
                 'name' => 'Protectors Vow',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -218,6 +247,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 30,
+                'item_id' => 38,
                 'name' => 'Pyro Emblem',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -225,6 +255,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 31,
+                'item_id' => 39,
                 'name' => 'Quicksilver',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -232,6 +263,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 32,
+                'item_id' => 40,
                 'name' => 'Rabadons Deathcap',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -239,6 +271,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 33,
+                'item_id' => 41,
                 'name' => 'Red Buff',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -246,6 +279,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 34,
+                'item_id' => 42,
                 'name' => 'Redemption',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -253,6 +287,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 35,
+                'item_id' => 43,
                 'name' => 'Runaans Hurricane',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -260,6 +295,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 36,
+                'item_id' => 44,
                 'name' => 'Spear of Shojin',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -267,6 +303,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 37,
+                'item_id' => 45,
                 'name' => 'Statikk Shiv',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -274,6 +311,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 38,
+                'item_id' => 46,
                 'name' => 'Steadfast Heart',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -281,6 +319,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 39,
+                'item_id' => 47,
                 'name' => 'Steraks Gage',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -288,6 +327,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 40,
+                'item_id' => 48,
                 'name' => 'Sugarcraft Emblem',
                 'description' => 'A rich and creamy dish made with beef, mushrooms, onions, and sour cream.',
                 'created_at' => now(),
@@ -295,6 +335,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 41,
+                'item_id' => 49,
                 'name' => 'Sunfire Cape',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
@@ -302,6 +343,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 42,
+                'item_id' => 50,
                 'name' => 'Tacticians Crown',
                 'description' => 'A crisp salad with romaine lettuce, croutons, Parmesan cheese, and Caesar dressing.',
                 'created_at' => now(),
@@ -309,6 +351,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 43,
+                'item_id' => 51,
                 'name' => 'Thiefs Gloves',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -316,6 +359,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 44,
+                'item_id' => 52,
                 'name' => 'Titans Resolve',
                 'description' => 'A classic Italian pasta dish made with eggs, cheese, pancetta, and pepper.',
                 'created_at' => now(),
@@ -323,6 +367,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 45,
+                'item_id' => 53,
                 'name' => 'Warmogs Armor',
                 'description' => 'Creamy pasta dish made with chicken, fettuccine, and Alfredo sauce.',
                 'created_at' => now(),
@@ -330,6 +375,7 @@ class RecipeSeeder extends Seeder
             ],
             [
                 'id' => 46,
+                'item_id' => 54,
                 'name' => 'Witchcraft Emblem',
                 'description' => 'A colorful and healthy mix of stir-fried vegetables with a savory sauce.',
                 'created_at' => now(),
