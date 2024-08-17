@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class AddItemIdToFormationsAndModifyColumns extends Migration
 {
@@ -15,11 +16,22 @@ class AddItemIdToFormationsAndModifyColumns extends Migration
     {
         Schema::table('formations', function (Blueprint $table) {
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade')->after('compo_id');
-
-            $table->integer('slot_table')->change();
-
             $table->boolean('star')->default(false)->after('slot_table');
         });
+
+        $connection = config('database.default');
+
+        if ($connection === 'pgsql') {
+
+            DB::statement('ALTER TABLE formations ALTER COLUMN slot_table TYPE integer USING slot_table::integer;');
+        } elseif ($connection === 'mysql') {
+
+            Schema::table('formations', function (Blueprint $table) {
+                $table->integer('slot_table')->change();
+            });
+        } else {
+            throw new Exception("Database connection [$connection] not supported.");
+        }
     }
 
     /**
@@ -29,13 +41,23 @@ class AddItemIdToFormationsAndModifyColumns extends Migration
      */
     public function down()
     {
+        $connection = config('database.default');
+
+        if ($connection === 'pgsql') {
+            DB::statement('ALTER TABLE formations ALTER COLUMN slot_table TYPE VARCHAR(255);');
+        } elseif ($connection === 'mysql') {
+            Schema::table('formations', function (Blueprint $table) {
+                $table->string('slot_table', 255)->change();
+            });
+        } else {
+            throw new Exception("Database connection [$connection] not supported.");
+        }
+
         Schema::table('formations', function (Blueprint $table) {
-            $table->integer('slot_table')->change();
-
             $table->dropColumn('star');
-
             $table->dropForeign(['item_id']);
             $table->dropColumn('item_id');
         });
     }
 }
+
