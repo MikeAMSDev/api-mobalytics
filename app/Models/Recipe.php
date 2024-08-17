@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Recipe extends Model
 {
     use HasFactory;
-    protected $fillable = ['id', 'name', 'description', 'base_item_id', 'combined_item_id'];
+    protected $fillable = ['id', 'name', 'description'];
 
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function requiredItems()
+    {
+        return $this->belongsToMany(Item::class, 'item_recipe', 'recipe_id', 'item_id');
     }
 }
