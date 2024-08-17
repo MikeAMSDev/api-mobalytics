@@ -17,7 +17,7 @@ class FormationSeeder extends Seeder
         DB::table('formations')->insert([
 
             [
-                'slot_table' => json_encode([12]),
+                'slot_table' => 12,
                 'champion_id' => 12,
                 'compo_id' => 1,
                 'item_id' => 15,
@@ -26,7 +26,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([12]),
+                'slot_table' => 12,
                 'champion_id' => 12,
                 'compo_id' => 1,
                 'item_id' => 13,
@@ -35,7 +35,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([12]),
+                'slot_table' => 12,
                 'champion_id' => 12,
                 'compo_id' => 1,
                 'item_id' => 8,
@@ -44,7 +44,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([4]),
+                'slot_table' => 4,
                 'champion_id' => 24,
                 'compo_id' => 1,
                 'item_id' => 9,
@@ -53,7 +53,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([4]),
+                'slot_table' => 4,
                 'champion_id' => 24,
                 'compo_id' => 1,
                 'item_id' => 35,
@@ -62,7 +62,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([4]),
+                'slot_table' => 4,
                 'champion_id' => 24,
                 'compo_id' => 1,
                 'item_id' => 23,
@@ -71,7 +71,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([16]),
+                'slot_table' => 16,
                 'champion_id' => 8,
                 'compo_id' => 1,
                 'item_id' => 18,
@@ -80,7 +80,7 @@ class FormationSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'slot_table' => json_encode([16]),
+                'slot_table' => 16,
                 'champion_id' => 8,
                 'compo_id' => 1,
                 'item_id' => 8,
