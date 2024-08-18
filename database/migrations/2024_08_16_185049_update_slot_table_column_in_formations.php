@@ -14,7 +14,7 @@ class UpdateSlotTableColumnInFormations extends Migration
     public function up()
     {
         Schema::table('formations', function (Blueprint $table) {
-            $table->integer('slot_table')->change();
+            $table->integer('slot_table');
         });
     }
 
@@ -26,7 +26,7 @@ class UpdateSlotTableColumnInFormations extends Migration
     public function down()
     {
         Schema::table('formations', function (Blueprint $table) {
-            $table->string('slot_table')->change();
+            $table->dropColumn('slot_table');
         });
     }
 }
