@@ -1108,7 +1108,7 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'Combat start: Empower all allies in the columns behind the holder, granting 25% Attack Speed and 15 Armor and Magic Resist for 12 seconds.',
                 'tier' => 'S',
                 'object_img' => '../../public/images/items/aegisofthelegion.png',
-                'type_object' => 'Consumable',
+                'type_object' => 'Support',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
