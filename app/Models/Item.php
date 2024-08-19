@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class Item extends Model
@@ -75,6 +76,8 @@ class Item extends Model
             ->select('item_recipe.item_id as ingredient_item_id', 'recipes.id as crafted_item_id', 'recipes.name', 'recipes.item_bonus', 'recipes.tier', 'recipes.object_img', 'recipes.type_object')
             ->get()
             ->groupBy('ingredient_item_id');
+            Log::debug('Required Items:', $requiredItems->toArray());
+        Log::debug('Crafted Items:', $craftedItems->toArray());
     
         return $items->map(function ($item) use ($requiredItems, $craftedItems) {
             return [
@@ -88,5 +91,43 @@ class Item extends Model
                 'crafted_items' => $craftedItems->get($item->id, []),
             ];
         });
+    }
+
+    public static function createWithRecipe(array $data)
+    {
+        DB::beginTransaction();
+    
+        try {
+            $item = self::create([
+                'name' => $data['name'],
+                'item_bonus' => $data['item_bonus'],
+                'tier' => $data['tier'],
+                'object_img' => $data['object_img'],
+                'type_object' => $data['type_object'],
+            ]);
+    
+            if (isset($data['has_recipe']) && $data['has_recipe']) {
+                $recipe = new Recipe([
+                    'name' => $item->name,
+                    'description' => $item->item_bonus,
+                ]);
+    
+                $item->recipes()->save($recipe);
+    
+                if (isset($data['recipe_objects']) && is_array($data['recipe_objects'])) {
+                    $recipe->requiredItems()->attach($data['recipe_objects']);
+                }
+    
+                // Verificar que las relaciones se han guardado
+                Log::info('Recipe creado con ID: ' . $recipe->id);
+                Log::info('Items asociados al recipe: ' . implode(',', $data['recipe_objects']));
+            }
+    
+            DB::commit();
+            return $item;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }
