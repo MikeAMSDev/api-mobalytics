@@ -18,7 +18,7 @@ class ItemSeeder extends Seeder
                 'name' => 'B.F. Sword',
                 'item_bonus' => '+10% Attack Damage',
                 'tier' => 'S',
-                'object_img' => '../../public/images/items/bf-sword.png',
+                'object_img' => 'bf-sword.png',
                 'type_object' => 'Basic',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -852,7 +852,7 @@ class ItemSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'The Baron’s Gift',
+                'name' => 'The Barons Gift',
                 'item_bonus' => 'After casting an Ability, gain 55% Attack Speed for 5 seconds.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/thebaronsgift.png',
@@ -883,7 +883,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'Gain 20% max health. Regenerate 1.5% max Health per second.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/warmogspride.png',
-
                 'type_object' => 'Radiant',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -893,7 +892,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'Grant bonus 30 Attack Damage and bonus Ability Power. After damaging a shielded enemy, Abilities and attacks deal more damage.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/willbreaker.png',
-
                 'type_object' => 'Radiant',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -903,7 +901,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'Gain 65% Attack Damage. Damage from an Ability can critically strike.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/zenithedge.png',
-
                 'type_object' => 'Radiant',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -913,7 +910,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'The holder gains the Arcana trait.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/arcanaemblem.png',
-
                 'type_object' => 'Non-Craftable',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -923,7 +919,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'The holder gains the Bastion trait.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/bastionemblem.png',
-
                 'type_object' => 'Non-Craftable',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -933,7 +928,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'The holder gains the Blaster trait.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/blasteremblem.png',
-
                 'type_object' => 'Non-Craftable',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -943,7 +937,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'The holder gains the Chrono trait.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/chronoemblem.png',
-
                 'type_object' => 'Non-Craftable',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -953,7 +946,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'The holder gains the Hunter trait.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/hunteremblem.png',
-
                 'type_object' => 'Non-Craftable',
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -963,7 +955,6 @@ class ItemSeeder extends Seeder
                 'item_bonus' => 'The holder gains the Incantor trait.',
                 'tier' => 'N',
                 'object_img' => '../../public/images/items/incantoremblem.png',
-
                 'type_object' => 'Non-Craftable',
                 'created_at' => now(),
                 'updated_at' => now(),

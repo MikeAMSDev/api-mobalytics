@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AdminUserController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ItemController;
+use App\Http\Controllers\Api\AdminItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/delete/{id}/delete', [AdminUserController::class, 'destroy']);
     });
 
+    Route::group(['prefix' => 'item', 'middleware' => ['auth:sanctum', 'App\Http\Middleware\CheckUserRole']], function () {
+        Route::get('/', [AdminItemController::class, 'index']);
+        Route::get('/{id}', [AdminItemController::class, 'show']);
+        Route::post('/create', [AdminItemController::class, 'create']);
+        Route::put('/update/{id}/update', [AdminItemController::class, 'update']);
+        Route::delete('/delete/{id}/delete', [AdminItemController::class, 'destroy']);
+    });
+
 });
 
 Route::group(['prefix' => 'user'], function () {
@@ -44,7 +53,7 @@ Route::group(['prefix' => 'user'], function () {
     });
 });
 
-Route::group(['prefix' => 'item', 'middleware' => ['auth:sanctum']], function () {
+Route::group(['prefix' => 'item'], function () {
     Route::get('/', [ItemController::class, 'index']);
 });
 

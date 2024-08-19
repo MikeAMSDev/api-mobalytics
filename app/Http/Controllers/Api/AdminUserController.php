@@ -28,6 +28,8 @@ class AdminUserController extends Controller
 
 
         $user = $query->paginate(10);
+
+        return response()->json($user, 200);
     }
 
     public function show($id)
@@ -36,7 +38,7 @@ class AdminUserController extends Controller
 
         if (!$user) {
             $data = [
-                'message' => 'Usuario no encontrado',
+                'message' => 'User not found',
                 'status' => 404
             ];
             return response()->json($data, 404);
@@ -74,7 +76,7 @@ class AdminUserController extends Controller
 
         if (!$user) {
             $data = [
-            'message' => 'Evento no encontrado',
+            'message' => 'User not found',
             'status' => 404
         ];
 
@@ -89,7 +91,7 @@ class AdminUserController extends Controller
         ]);
 
         $data = [
-            'message' => 'Usuario actualizado',
+            'message' => 'User updated',
             'student' => $user,
             'status' => 200
         ];
@@ -106,7 +108,7 @@ class AdminUserController extends Controller
 
         if (!$user) {
             $data = [
-                'message' => 'Usuario no encontrado',
+                'message' => 'User not found',
                 'status' => 404
             ];
 
@@ -122,7 +124,7 @@ class AdminUserController extends Controller
         $user->forceDelete(); 
 
         $data = [
-            'message' => 'Usuario eliminado',
+            'message' => 'User eliminated',
             'status' => 200
         ];
 
