@@ -18,7 +18,7 @@ class ItemSeeder extends Seeder
                 'name' => 'B.F. Sword',
                 'item_bonus' => '+10% Attack Damage',
                 'tier' => 'S',
-                'object_img' => 'images/items/bf-sword.png',
+                'object_img' => 'bf-sword.png',
                 'type_object' => 'Basic',
                 'created_at' => now(),
                 'updated_at' => now(),
