@@ -12,4 +12,9 @@ class ItemRecipe extends Model
     protected $table = 'item_recipe';
 
     protected $fillable = ['id','recipe_id', 'item_id']; 
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class, 'recipe_id');
+    }
 }

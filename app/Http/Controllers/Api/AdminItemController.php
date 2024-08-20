@@ -13,6 +13,9 @@ use App\Models\Item;
 use App\Models\Recipe;
 use App\Models\ItemRecipe;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
+use Exception;
 
 
 class AdminItemController extends Controller
@@ -66,62 +69,38 @@ class AdminItemController extends Controller
                 'status' => 201,
             ], 201);
     
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'Failed to create item or recipe', 'details' => $e->getMessage()], 500);
         }
     }
-    public function update(UpdateItemRequest $request, $id)
+
+    public function update(UpdateItemRequest $request, $id): JsonResponse
     {
-        $user = Item::find($id);
+        $validated = $request->validated();
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'roles_id' => $request->roles_id,
-        ]);
+        $item = Item::findOrFail($id);
 
-        $data = [
-            'message' => 'Usuario actualizado',
-            'student' => $user,
-            'status' => 200
-        ];
+        try {
+            $item->updateItemWithRecipes($validated);
 
-        return response()->json($data, 200);
+            return response()->json([
+                'message' => 'Item updated correctly.',
+                'item' => $item->load('recipes')
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 400);
+        }
     }
-
-
     public function destroy($id)
     {
-        $authenticatedUser = Auth::user();
+        $item = Item::findOrFail($id);
 
-        $user = Item::find($id);
+        $item->deleteWithRelations();
 
-        if (!$user) {
-            $data = [
-                'message' => 'Usuario no encontrado',
-                'status' => 404
-            ];
-
-            return response()->json($data, 404);
-        }
-
-        if ($authenticatedUser->id == $user->id) {
-            $authenticatedUser->tokens->each(function ($token) {
-                $token->delete();
-            });
-        }
-
-        $user->forceDelete(); 
-
-        $data = [
-            'message' => 'Usuario eliminado',
-            'status' => 200
-        ];
-
-        return response()->json($data, 200);
+        return response()->json(['message' => 'Item and all its relations deleted successfully.']);
     }
-
 
 
 }
