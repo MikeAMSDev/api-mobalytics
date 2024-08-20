@@ -8,12 +8,16 @@ use App\Models\Item;
 
 class ItemController extends Controller
 {
-    public function index(Request $request)
-    {
-        $typeObject = $request->input('type_object');
+public function index(Request $request)
+{
+    $typeObject = $request->input('type_object');
+    $items = Item::getItemsWithRequiredItems($typeObject);
 
-        $items = Item::getItemsWithRequiredItems($typeObject);
+    $items = $items->map(function ($item) {
+        $item['object_img'] = asset('images/items/' . $item['object_img']);
+        return $item;
+    });
 
-        return response()->json($items);
-    }
+    return response()->json($items);
+}
 }
