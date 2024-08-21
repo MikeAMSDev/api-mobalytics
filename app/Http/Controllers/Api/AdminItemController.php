@@ -23,19 +23,18 @@ class AdminItemController extends Controller
 
     public function index(Request $request)
     {
-
         $query = Item::query();
-
-
+    
         if ($request->has('search')) {
             $searchTerm = $request->input('search');
             $query->where('name', 'like', "%$searchTerm%");
         }
 
-
-        $item = $query->paginate(10);
-
-        return response()->json($item, 200);
+        $items = $query->get()->map(function ($item) {
+            return $item->fresh();
+        });
+    
+        return response()->json($items, 200);
     }
 
     public function show($id)
@@ -83,9 +82,11 @@ class AdminItemController extends Controller
         try {
             $item->updateItemWithRecipes($validated);
 
+            $item->fresh('recipes');
+    
             return response()->json([
                 'message' => 'Item updated correctly.',
-                'item' => $item->load('recipes')
+                'item' => $item->load('recipes.items')
             ], 200);
         } catch (Exception $e) {
             return response()->json([
