@@ -8,7 +8,12 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateItemRequest extends FormRequest
 {
-    public function rules()
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
@@ -36,6 +41,14 @@ class UpdateItemRequest extends FormRequest
             'recipes.*.item_ids.required' => 'Los IDs de los ítems son obligatorios.',
             'recipes.*.item_ids.*.exists' => 'Uno o más IDs de ítems no son válidos.',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $itemId = $this->route('id');
+        $this->merge([
+            'item_id' => $itemId,
+        ]);
     }
 
     protected function failedValidation(Validator $validator)

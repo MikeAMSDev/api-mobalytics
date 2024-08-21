@@ -21,7 +21,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Arcana',
                 'type' => 'Origins',
                 'description' => 'Use the Arcana signifier item to choose a High Arcana champion. Arcanas effect changes based on the High Arcana you chosen. Ahri: Your team gains Ability Power for each 3-star champion. Hecarim: Champions holding items gain damage reduction and Attack Damage. Tahm Kench: Your team gains Health for each active trait. Xerath: Abilities deal bonus true damage for each Charm purchased this game. Emblem: Your team gains bonus damage for each fielded champion holding a Spatula item. The Arcanas effect increases with every activated synergy threshold.',
-                'icon_synergy' => '../../public/images/synergies/arcana_icon.png',
+                'icon_synergy' => 'arcana_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => 'Bonus Effect'],
                     ['3' => 'Bonus Effect'],
@@ -36,7 +36,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Chrono',
                 'type' => 'Origins',
                 'description' => 'Chronos gain 15 Ability Power.Combat start: Begin a 16 second countdown, which speeds up by 1 second after each Chrono ability cast. At the end of the countdown get a special effect.',
-                'icon_synergy' => '../../public/images/synergies/chrono_icon.png',
+                'icon_synergy' => 'chrono_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => 'Team restores 20% health; Chronos gain 20 more Ability Power'],
                     ['4' => 'Freeze time for non-Chronos for 2.5 seconds Chronos keep fighting and gain 35 more Ability Power'],
@@ -50,7 +50,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Dragon',
                 'type' => 'Origins',
                 'description' => 'Dragon attacks and Abilities Burn and Wound targets.Burn: Deals a percent of the targets maximum Health as true damage every second Wound: Reduce healing received by 33%',
-                'icon_synergy' => '../../public/images/synergies/dragon_icon.png',
+                'icon_synergy' => 'dragon_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '1% Burn and Wound targets for 5 seconds.'],
                     ['3' => 'The power of friendship upgrades all dragon Abilities!'],
@@ -63,7 +63,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Druid',
                 'type' => 'Origins',
                 'description' => 'The Druid does not have a trait bonus, but instead has a powerful Ability and increased stats.',
-                'icon_synergy' => '../../public/images/synergies/druid_icon.png',
+                'icon_synergy' => 'druid_icon.png',
                 'synergy_activation' => json_encode([
                     ['1' => 'Bonus Effect'],
                 ]),
@@ -75,7 +75,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Eldritch',
                 'type' => 'Origins',
                 'description' => 'When your team loses 20% of their Health, an Old God awakens.Each Eldritch star level increases the Old Gods Health & Ability Power',
-                'icon_synergy' => '../../public/images/synergies/eldritch_icon.png',
+                'icon_synergy' => 'eldritch_icon.png',
                 'synergy_activation' => json_encode([
                     ['3' => 'The Tainted Golem'],
                     ['5' => 'The Jet-Black Ibex'],
@@ -90,7 +90,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Faerie',
                 'type' => 'Origins',
                 'description' => 'Faeries gain Health and create special items that become stronger with trait tiers.Choose a queen with the Faerie Crown which grants Damage amp. Choose a loyal guard with a glamoured armor which grants healing based on the queens damage.Only Faeries can hold Faerie items.',
-                'icon_synergy' => '../../public/images/synergies/faerie_icon.png',
+                'icon_synergy' => 'faerie_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => 'Gain Faerie Queens Crown, 100 Health, Crown 25%'],
                     ['4' => '400 Health, Crown 35%'],
@@ -105,7 +105,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Frost',
                 'type' => 'Origins',
                 'description' => 'Frost champions freeze the first enemies that die into allied ice soldiers. Enemies will prioritize attacking ice soldiers within range when retargeting.Frost champions also gain Ability Power and Attack Damage.Soldiers have 200 Health per stage.',
-                'icon_synergy' => '../../public/images/synergies/frost_icon.png',
+                'icon_synergy' => 'frost_icon.png',
                 'synergy_activation' => json_encode([
                     ['3' => '20 , 1 statues'],
                     ['5' => '35 , 2 statues'],
@@ -120,7 +120,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Honeymancy',
                 'type' => 'Origins',
                 'description' => 'Honeymancers summon Bees, each dealing 10% of their damage dealt and 2.5% of damage taken as magic damage every 3 seconds. When they die, one of their Bees survives and will re-attach to nearby Honeymancers for the rest of combat.',
-                'icon_synergy' => '../../public/images/synergies/honeymancy_icon.png',
+                'icon_synergy' => 'honeymancy_icon.png',
                 'synergy_activation' => json_encode([
                     ['3' => '3 Bees'],
                     ['5' => '5 Bees'],
@@ -134,7 +134,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Portal',
                 'type' => 'Origins',
                 'description' => 'Create a portal. During combat, junk from other universes flies out of the portal every few seconds, helping allies and disrupting enemies. Portal strength increases by 1% for each Portal units star level.Combat start: Portal champions Shield for 15 seconds.',
-                'icon_synergy' => '../../public/images/synergies/portal_icon.png',
+                'icon_synergy' => 'portal_icon.png',
                 'synergy_activation' => json_encode([
                     ['3' => 'Small portal, 200 Shield'],
                     ['6' => 'Medium portal, 450 Shield'],
@@ -149,7 +149,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Pyro',
                 'type' => 'Origins',
                 'description' => 'Pyro champions gain Attack Speed and execute enemies under % Health threshold.Pyro champions gain an infernal cinder on each kill that you can collect during the planning phase. Your team gains 3% Attack Speed, increased by 1% for every 4 cinders collected.',
-                'icon_synergy' => '../../public/images/synergies/pyro_icon.png',
+                'icon_synergy' => 'pyro_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '12% AS, execution at 12%'],
                     ['3' => '25% AS, execution at 12%'],
@@ -164,7 +164,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Ravenous',
                 'type' => 'Origins',
                 'description' => 'Briar deals 0.3% more damage for each health you are missing.Each round, gain a Light Snack that can be used on Briar to feed her 3 player health. She permanently gains 150 when she eats it.',
-                'icon_synergy' => '../../public/images/synergies/ravenous_icon.png',
+                'icon_synergy' => 'ravenous_icon.png',
                 'synergy_activation' => json_encode([
                     ['1' => 'Bonus Effect'],
                 ]),
@@ -176,7 +176,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Sugarcraft',
                 'type' => 'Origins',
                 'description' => 'After each player combat, Sugarcrafters generate Sugar for each item component equipped to your team.Sugar helps build a cake with up to 10 layers. They gain Ability Power and Attack Damage, increased by 10% per layer. When the cake is complete, gain a special treat every 150 Sugar.',
-                'icon_synergy' => '../../public/images/synergies/sugarcraft_icon.png',
+                'icon_synergy' => 'sugarcraft_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '2 Sugar per component, 15'],
                     ['4' => '4 Sugar per component, 30'],
@@ -190,7 +190,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Witchcraft',
                 'type' => 'Origins',
                 'description' => 'Witch abilities apply a curse to enemies for 4 seconds. When a cursed enemy dies, the curse spreads to the nearest enemy.Cursed enemies become.',
-                'icon_synergy' => '../../public/images/synergies/witchcraft_icon.png',
+                'icon_synergy' => 'witchcraft_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => 'Smaller, losing 200 of their max health'],
                     ['4' => 'Green, healing the lowest Health Witch for 15% of damage taken'],
@@ -205,7 +205,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Ascendant',
                 'type' => 'Classes',
                 'description' => 'Xerath makes Ascendant Charms show up in your shop. After each player combat, your odds of seeing one increase by 8% up to a maximum of 40%. Once you buy one, your odds reset.',
-                'icon_synergy' => '../../public/images/synergies/ascendant_icon.png',
+                'icon_synergy' => 'ascendant_icon.png',
                 'synergy_activation' => json_encode([
                     ['1' => 'Bonus Effect'],
                 ]),
@@ -217,7 +217,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Bastion',
                 'type' => 'Classes',
                 'description' => 'Allies gain 10 Armor and Magic Resist.Bastion champions gain more, increased by 100% for the first 10 seconds of combat.',
-                'icon_synergy' => '../../public/images/synergies/bastion_icon.png',
+                'icon_synergy' => 'bastion_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '15'],
                     ['4' => '40'],
@@ -232,7 +232,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Bat Queen',
                 'type' => 'Classes',
                 'description' => 'When Morganas bats kill an enemy, they have an 40% chance to abduct it, granting a 1 star copy or one of their item components!',
-                'icon_synergy' => '../../public/images/synergies/batqueen_icon.png',
+                'icon_synergy' => 'batqueen_icon.png',
                 'synergy_activation' => json_encode([
                     ['1' => 'Bonus Effect'],
                 ]),
@@ -244,7 +244,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Blaster',
                 'type' => 'Classes',
                 'description' => 'Blasters gain bonus damage, which increases for 3 seconds after casting their Ability.',
-                'icon_synergy' => '../../public/images/synergies/blaster_icon.png',
+                'icon_synergy' => 'blaster_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '7% bonus damage; 25% after casting'],
                     ['4' => '15% bonus damage; 40% after casting'],
@@ -258,7 +258,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Explorer',
                 'type' => 'Classes',
                 'description' => 'Norra summons Yuumi, who can be attached to allies by holding her over them. Yuumi casts and dies at the same time as Norra and shares her AP.',
-                'icon_synergy' => '../../public/images/synergies/explorer_icon.png',
+                'icon_synergy' => 'explorer_icon.png',
                 'synergy_activation' => json_encode([
                     ['1' => 'Bonus Effect'],
                 ]),
@@ -270,7 +270,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Hunter',
                 'type' => 'Classes',
                 'description' => 'Hunters gain Attack Damage, increased the first time they get a takedown each combat.',
-                'icon_synergy' => '../../public/images/synergies/hunter_icon.png',
+                'icon_synergy' => 'hunter_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '15% Base, 30% Increased'],
                     ['4' => '40% Base, 65% Increased'],
@@ -284,7 +284,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Incantor',
                 'type' => 'Classes',
                 'description' => 'Your team gains 10 Ability Power.When Incantors attack or cast they gain stacks of Ability Power up to a max of 20. Attacks grant 1 stack, and casts grant 3 stacks.',
-                'icon_synergy' => '../../public/images/synergies/incantor_icon.png',
+                'icon_synergy' => 'incantor_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '2 per stack'],
                     ['4' => '5 per stack'],
@@ -297,7 +297,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Mage',
                 'type' => 'Classes',
                 'description' => 'Mages echo their Abilities and have modified total Ability Power.',
-                'icon_synergy' => '../../public/images/synergies/mage_icon.png',
+                'icon_synergy' => 'mage_icon.png',
                 'synergy_activation' => json_encode([
                     ['3' => '75% Ability Power'],
                     ['5' => '89% Ability Power'],
@@ -312,7 +312,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Multistriker',
                 'type' => 'Classes',
                 'description' => 'Multistrikers attacks have a chance to trigger 2 additional attacks.',
-                'icon_synergy' => '../../public/images/synergies/multistriker.png',
+                'icon_synergy' => 'multistriker.png',
                 'synergy_activation' => json_encode([
                     ['3' => '30% chance'],
                     ['5' => '55% chance'],
@@ -327,7 +327,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Preserver',
                 'type' => 'Classes',
                 'description' => 'Your team heals for a percent of their maximum Health every 3 seconds. If they are full health, they restore Mana instead.Preservers gain double the bonuses.',
-                'icon_synergy' => '../../public/images/synergies/hunter_icon.png',
+                'icon_synergy' => 'hunter_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '2.5% HP , 3% Mana'],
                     ['3' => '4.5% HP , 5% Mana'],
@@ -342,7 +342,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Scholar',
                 'type' => 'Classes',
                 'description' => 'Scholars gain bonus Mana on attack.',
-                'icon_synergy' => '../../public/images/synergies/scholar_icon.png',
+                'icon_synergy' => 'scholar_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '3 Mana per attack'],
                     ['4' => '6 Mana per attack'],
@@ -356,7 +356,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Shapeshifter',
                 'type' => 'Classes',
                 'description' => 'Shapeshifters gain bonus max Health. After their first Ability cast, they triple this effect.',
-                'icon_synergy' => '../../public/images/synergies/shapeshifter_icon.png',
+                'icon_synergy' => 'shapeshifter_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '10%'],
                     ['4' => '15%'],
@@ -371,7 +371,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Vanguard',
                 'type' => 'Classes',
                 'description' => 'Vanguards take 10% less damage while shielded.Combat start and at 50% Health: Gain a Shield for a percent of max Health for 10 seconds.',
-                'icon_synergy' => '../../public/images/synergies/vanguard_icon.png',
+                'icon_synergy' => 'vanguard_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '18%'],
                     ['4' => '35%'],
@@ -385,7 +385,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Warrior',
                 'type' => 'Classes',
                 'description' => 'Warriors gain Omnivamp and bonus damage. When Warriors drop below 60% health, the bonus damage is doubled.',
-                'icon_synergy' => '../../public/images/synergies/warrior_icon.png',
+                'icon_synergy' => 'warrior_icon.png',
                 'synergy_activation' => json_encode([
                     ['2' => '10% Omnivamp, 10% bonus damage'],
                     ['4' => '18% Omnivamp, 18% bonus damage'],
