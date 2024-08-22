@@ -73,17 +73,13 @@ class Item extends Model
         return $items->map(function ($item) {
             $recipes = $item->recipes->map(function ($recipe) {
                     return [
-                        'parent_item_id' => $recipe->item_id,
-                        'required_item_id' => $recipe->id,
-                        'name' => $recipe->name,
-                        'description' => $recipe->description,
-                        'required_items' => $recipe->items->map(function ($requiredItem) {
+                        $recipe->items->map(function ($requiredItem) {
                             return [
                                 'id' => $requiredItem->id,
                                 'name' => $requiredItem->name,
                                 'item_bonus' => $requiredItem->item_bonus,
                                 'tier' => $requiredItem->tier,
-                                'object_img' => $requiredItem->object_img,
+                                'object_img' => url($requiredItem->object_img),
                                 'type_object' => $requiredItem->type_object,
                             ];
                         }),
