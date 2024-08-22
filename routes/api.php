@@ -37,8 +37,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/', [AdminItemController::class, 'index']);
         Route::get('/{id}', [AdminItemController::class, 'show']);
         Route::post('/create', [AdminItemController::class, 'create']);
-        Route::put('/update/{id}/update', [AdminItemController::class, 'update']);
-        Route::delete('/delete/{id}/delete', [AdminItemController::class, 'destroy']);
+        Route::put('/update/{id}', [AdminItemController::class, 'update']);
+        Route::delete('/delete/{id}', [AdminItemController::class, 'destroy']);
     });
 
 });

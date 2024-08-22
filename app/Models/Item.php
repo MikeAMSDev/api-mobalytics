@@ -169,38 +169,32 @@ class Item extends Model
             'object_img' => $validatedData['object_img'],
             'type_object' => $validatedData['type_object'],
         ]);
-
+    
         if (isset($validatedData['recipes'])) {
-            foreach ($validatedData['recipes'] as $recipeData) {
-                $recipe = Recipe::where('id', $recipeData['id'])
-                    ->where('item_id', $this->id)
-                    ->first();
+            $recipeData = $validatedData['recipes'][0];
 
-                if (!$recipe) {
-                    throw new \Exception("The recipe with this id {$recipeData['id']} is not asociated in this ítem.");
-                }
+            $recipe = Recipe::firstOrNew([
+                'id' => $recipeData['id'] ?? null,
+                'item_id' => $this->id,
+            ]);
+    
+            $recipe->fill([
+                'name' => $recipeData['name'],
+                'description' => $recipeData['description'],
+            ])->save();
 
-                $recipe->update([
-                    'name' => $recipeData['name'],
-                    'description' => $recipeData['description'],
+            DB::table('item_recipe')->where('recipe_id', $recipe->id)->delete();
+    
+            foreach ($recipeData['item_ids'] as $itemId) {
+                DB::table('item_recipe')->insert([
+                    'recipe_id' => $recipe->id,
+                    'item_id' => $itemId
                 ]);
-
-                foreach ($recipeData['item_ids'] as $index => $itemId) {
-                    $itemRecipe = DB::table('item_recipe')
-                        ->where('recipe_id', $recipe->id)
-                        ->skip($index)
-                        ->first();
-
-                    if ($itemRecipe) {
-                        DB::table('item_recipe')
-                            ->where('id', $itemRecipe->id)
-                            ->update(['item_id' => $itemId]);
-                    }
-                }
             }
+        } else {
+            Recipe::where('item_id', $this->id)->delete();
         }
     }
-
     public function deleteWithRelations()
     {
         $recipes = Recipe::where('item_id', $this->id)->get();
