@@ -83,7 +83,7 @@ class AdminItemController extends Controller
             $item->updateItemWithRecipes($validated);
 
             $item->fresh('recipes');
-    
+        
             return response()->json([
                 'message' => 'Item updated correctly.',
                 'item' => $item->load('recipes.items')
@@ -94,6 +94,7 @@ class AdminItemController extends Controller
             ], 400);
         }
     }
+    
     public function destroy($id)
     {
         $item = Item::findOrFail($id);

@@ -21,25 +21,29 @@ class UpdateItemRequest extends FormRequest
             'tier' => 'nullable|string|max:255',
             'object_img' => 'required|string|max:255',
             'type_object' => 'required|in:' . implode(',', \App\Models\Item::VALID_TYPE_OBJECTS),
-            'recipes' => 'nullable|array',
-            'recipes.*.id' => 'required|exists:recipes,id',
-            'recipes.*.name' => 'nullable|string|max:255',
+            'recipes' => 'nullable|array|max:1',
+            'recipes.*.id' => 'nullable|exists:recipes,id',
+            'recipes.*.name' => 'required_with:recipes.*.id|string|max:255',
             'recipes.*.description' => 'nullable|string',
-            'recipes.*.item_ids' => 'required|array|min:1',
+            'recipes.*.item_ids' => 'required_with:recipes.*.id|array|min:1|max:2',
             'recipes.*.item_ids.*' => 'required|exists:items,id',
         ];
     }
-
+    
     public function messages()
     {
         return [
-            'name.required' => 'El nombre del ítem es obligatorio.',
-            'item_bonus.required' => 'El bono del ítem es obligatorio.',
-            'type_object.in' => 'El tipo de ítem seleccionado no es válido.',
-            'recipes.*.id.exists' => 'El ID de la receta no es válido.',
-            'recipes.*.name.string' => 'El nombre de la receta debe ser un texto.',
-            'recipes.*.item_ids.required' => 'Los IDs de los ítems son obligatorios.',
-            'recipes.*.item_ids.*.exists' => 'Uno o más IDs de ítems no son válidos.',
+            'name.required' => 'Item name is required.',
+            'item_bonus.required' => 'The item bonus is mandatory.',
+            'type_object.in' => 'The selected item type is not valid.',
+            'recipes.max' => 'You can only associate one recipe to the item.',
+            'recipes.*.id.exists' => 'The recipe ID is invalid.',
+            'recipes.*.name.required_with' => 'The recipe name is required when providing a recipe ID.',
+            'recipes.*.name.string' => 'The recipe name must be a text.',
+            'recipes.*.item_ids.required_with' => 'Item IDs are required when providing a Recipe ID.',
+            'recipes.*.item_ids.min' => 'The recipe must have at least one associated item.',
+            'recipes.*.item_ids.max' => 'The recipe cannot have more than two objects associated with it.',
+            'recipes.*.item_ids.*.exists' => 'One or more item IDs are invalid.',
         ];
     }
 
