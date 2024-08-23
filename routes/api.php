@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\AdminItemController;
 use App\Http\Controllers\Api\SynergyController;
+use App\Http\Controllers\Api\AdminSynergyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,15 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/create', [AdminItemController::class, 'create']);
         Route::put('/update/{id}', [AdminItemController::class, 'update']);
         Route::delete('/delete/{id}', [AdminItemController::class, 'destroy']);
+    });
+
+
+    Route::group(['prefix' => 'synergy', 'middleware' => ['auth:sanctum', 'App\Http\Middleware\CheckUserRole']], function () {
+        Route::get('/', [AdminSynergyController::class, 'index']);
+        Route::get('/{id}', [AdminSynergyController::class, 'show']);
+        Route::post('/create', [AdminSynergyController::class, 'create']);
+        Route::put('/update/{id}', [AdminSynergyController::class, 'update']);
+        Route::delete('/delete/{id}', [AdminSynergyController::class, 'destroy']);
     });
 
 });
