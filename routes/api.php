@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\AdminItemController;
+use App\Http\Controllers\Api\SynergyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,10 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['prefix' => 'item'], function () {
     Route::get('/', [ItemController::class, 'index']);
+});
+
+Route::group(['prefix' => 'synergy'], function () {
+    Route::get('/', [SynergyController::class, 'index']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

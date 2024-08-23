@@ -79,7 +79,7 @@ class Item extends Model
                                 'name' => $requiredItem->name,
                                 'item_bonus' => $requiredItem->item_bonus,
                                 'tier' => $requiredItem->tier,
-                                'object_img' => url($requiredItem->object_img),
+                                'object_img' => url('images/items/' . $requiredItem->object_img),
                                 'type_object' => $requiredItem->type_object,
                             ];
                         }),
@@ -94,7 +94,7 @@ class Item extends Model
             $relatedItem = $item->where('id', $recipe->item_id)->first();
 
             $itemBonus = $relatedItem ? $relatedItem->item_bonus : null;
-            $objectImg = $relatedItem ? url($relatedItem->object_img) : null;
+            $objectImg = $relatedItem ? $relatedItem->object_img : null;
             $typeObject = $relatedItem ? $relatedItem->type_object : null; 
 
             return [
@@ -102,7 +102,7 @@ class Item extends Model
                 'required_item_id' => $recipe->id,
                 'name' => $recipe->name,
                 'item_bonus' => $itemBonus,
-                'object_img' => $objectImg,
+                'object_img' => url('images/items/' .$objectImg),
                 'type_object' => $typeObject,
             ];
                 })->unique(function ($item) {
