@@ -22,7 +22,15 @@ class ModifySynergyTable extends Migration
             $table->unsignedTinyInteger('set_version');
         });
 
-        DB::statement('ALTER TABLE synergies ADD CONSTRAINT set_version_check CHECK (set_version BETWEEN 1 AND 12)');
+        try {
+            DB::statement('
+                ALTER TABLE synergies 
+                ADD CONSTRAINT set_version_check 
+                CHECK (set_version BETWEEN 1 AND 12);
+            ');
+        } catch (\Exception $e) {
+
+        }
     }
 
     /**
@@ -32,16 +40,20 @@ class ModifySynergyTable extends Migration
      */
     public function down()
     {
+        try {
+            DB::statement('
+                ALTER TABLE synergies 
+                DROP CONSTRAINT set_version_check;
+            ');
+        } catch (\Exception $e) {
 
-        DB::statement('ALTER TABLE synergies DROP CONSTRAINT set_version_check');
+        }
 
         Schema::table('synergies', function (Blueprint $table) {
-
             $table->dropColumn('set_version');
         });
 
         Schema::table('synergies', function (Blueprint $table) {
-
             $table->tinyInteger('set_version')->unsigned();
         });
     }
