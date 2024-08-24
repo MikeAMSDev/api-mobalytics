@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Synergy;
 use App\Http\Requests\CreateSynergyRequest;
+use App\Http\Requests\UpdateSynergyRequest;
 use App\Http\Resources\SynergyResource;
 
 
@@ -33,6 +34,23 @@ class AdminSynergyController extends Controller
         $synergy = Synergy::createSynergy($request->validated());
 
         return new SynergyResource($synergy);
+    }
+
+    public function update(UpdateSynergyRequest $request, $id)
+    {
+        $synergy = Synergy::findOrFail($id);
+
+        $synergy->updateSynergy($request->validated());
+
+        return new SynergyResource($synergy);
+    }
+
+    public function destroy($id)
+    {
+        $synergy = Synergy::findOrFail($id);
+        $synergy->deleteSynergy();
+
+        return response()->json(['message' => 'Synergy deleted successfully.'], 200);
     }
 
 }

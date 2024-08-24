@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Synergy extends Model
 {
@@ -55,5 +57,17 @@ class Synergy extends Model
     public static function createSynergy(array $data)
     {
         return self::create($data);
+    }
+
+    public function updateSynergy(array $data)
+    {
+        return $this->update($data);
+    }
+
+    public function deleteSynergy()
+    {
+        DB::table('champion_synergy')->where('synergy_id', $this->id)->delete();
+
+        $this->delete();
     }
 }
