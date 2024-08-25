@@ -72,19 +72,17 @@ class Item extends Model
     
         return $items->map(function ($item) {
             $recipes = $item->recipes->map(function ($recipe) {
+                return $recipe->items->map(function ($requiredItem) {
                     return [
-                        $recipe->items->map(function ($requiredItem) {
-                            return [
-                                'id' => $requiredItem->id,
-                                'name' => $requiredItem->name,
-                                'item_bonus' => $requiredItem->item_bonus,
-                                'tier' => $requiredItem->tier,
-                                'object_img' => url('images/items/' . $requiredItem->object_img),
-                                'type_object' => $requiredItem->type_object,
-                            ];
-                        }),
+                        'id' => $requiredItem->id,
+                        'name' => $requiredItem->name,
+                        'item_bonus' => $requiredItem->item_bonus,
+                        'tier' => $requiredItem->tier,
+                        'object_img' => url('images/items/' . $requiredItem->object_img),
+                        'type_object' => $requiredItem->type_object,
                     ];
                 });
+            })->flatten(1);
 
             $craftedItems = $item->craftedItems
                 ->filter(function ($recipe) {
@@ -96,11 +94,13 @@ class Item extends Model
             $itemBonus = $relatedItem ? $relatedItem->item_bonus : null;
             $objectImg = $relatedItem ? $relatedItem->object_img : null;
             $typeObject = $relatedItem ? $relatedItem->type_object : null; 
+            $tier = $relatedItem ? $relatedItem->tier : null; 
 
             return [
                 'parent_item_id' => $recipe->item_id,
                 'required_item_id' => $recipe->id,
                 'name' => $recipe->name,
+                'tier' => $tier,
                 'item_bonus' => $itemBonus,
                 'object_img' => url('images/items/' .$objectImg),
                 'type_object' => $typeObject,
