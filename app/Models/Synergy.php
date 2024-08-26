@@ -15,9 +15,6 @@ class Synergy extends Model
 
     public const VALID_TYPE_SYNERGY =['Origins', 'Classes'];
 
-    protected $casts = [
-        'synergy_activation' => 'array',
-    ];
 
     public function champions()
     {

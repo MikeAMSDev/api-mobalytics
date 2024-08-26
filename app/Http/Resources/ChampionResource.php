@@ -23,7 +23,7 @@ class ChampionResource extends JsonResource
             'ability' => $this->ability,
             'champion_icon' => url('images/champions/' . $this->champion_icon),
             'set_version' => $this->set_version,
-            'stats' => $this->stats,
+            'stats' => json_decode($this->stats),
             'synergies' => SynergyResource::collection($this->whenLoaded('synergies')),
         ];
     }
