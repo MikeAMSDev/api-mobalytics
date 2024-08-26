@@ -31,16 +31,16 @@ class Synergy extends Model
     public static function getSynergyWithType($typeSynergy = null)
     {
         $query = self::query();
-    
+        
         if ($typeSynergy && !in_array($typeSynergy, self::VALID_TYPE_SYNERGY)) {
             return response()->json(['error' => 'Invalid type value.'], 400);
         }
-    
+        
         if ($typeSynergy) {
             $query->where('type', $typeSynergy);
         }
-    
-        return $query->with('champions')->get();
+
+        return $query->with(['champions.synergies'])->get();
     }
 
     public static function findOrFailWithChampions($id)
