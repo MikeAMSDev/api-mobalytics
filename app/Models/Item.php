@@ -31,7 +31,7 @@ class Item extends Model
     }
     public function recipe()
     {
-        return $this->belongsToMany(Recipe::class,'item_recipe', 'item_id');
+        return $this->belongsToMany(Recipe::class,'item_recipe');
     }
     public function recipes()
     {
@@ -57,7 +57,7 @@ class Item extends Model
     {
         $query = self::with([
             'recipes.items',
-            'craftedItems'
+            'craftedItems',
         ]);
     
         if ($typeObject && !in_array($typeObject, self::VALID_TYPE_OBJECTS)) {
@@ -71,6 +71,7 @@ class Item extends Model
         $items = $query->get();
     
         return $items->map(function ($item) {
+
             $recipes = $item->recipes->map(function ($recipe) {
                 return $recipe->items->map(function ($requiredItem) {
                     return [
@@ -89,39 +90,48 @@ class Item extends Model
                     return $recipe->type_object !== 'Basic';
                 })
                 ->map(function ($recipe) use ($item) {
-            $relatedItem = $item->where('id', $recipe->item_id)->first();
-
-            $itemBonus = $relatedItem ? $relatedItem->item_bonus : null;
-            $objectImg = $relatedItem ? $relatedItem->object_img : null;
-            $typeObject = $relatedItem ? $relatedItem->type_object : null; 
-            $tier = $relatedItem ? $relatedItem->tier : null; 
-
-            return [
-                'parent_item_id' => $recipe->item_id,
-                'required_item_id' => $recipe->id,
-                'name' => $recipe->name,
-                'tier' => $tier,
-                'item_bonus' => $itemBonus,
-                'object_img' => url('images/items/' .$objectImg),
-                'type_object' => $typeObject,
-            ];
+                    $relatedItem = Item::find($recipe->item_id);
+    
+                    $itemBonus = $relatedItem ? $relatedItem->item_bonus : null;
+                    $objectImg = $relatedItem ? $relatedItem->object_img : null;
+                    $typeObject = $relatedItem ? $relatedItem->type_object : null; 
+                    $tier = $relatedItem ? $relatedItem->tier : null;
+    
+                    return [
+                        'parent_item_id' => $recipe->item_id,
+                        'required_item_id' => $recipe->id,
+                        'name' => $recipe->name,
+                        'tier' => $tier,
+                        'item_bonus' => $itemBonus,
+                        'object_img' => url('images/items/' . $objectImg),
+                        'type_object' => $typeObject,
+                        'recipe' => $recipe->items->map(function ($requiredItem) {
+                            return [
+                                'id' => $requiredItem->id,
+                                'name' => $requiredItem->name,
+                                'item_bonus' => $requiredItem->item_bonus,
+                                'tier' => $requiredItem->tier,
+                                'object_img' => url('images/items/' . $requiredItem->object_img),
+                                'type_object' => $requiredItem->type_object,
+                            ];
+                        }),
+                    ];
                 })->unique(function ($item) {
                     return $item['parent_item_id'] . '-' . $item['required_item_id'];
                 });
-
-                return [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'item_bonus' => $item->item_bonus,
-                    'tier' => $item->tier,
-                    'object_img' => $item->object_img,
-                    'type_object' => $item->type_object,
-                    'recipe' => $recipes,
-                    'crafted_items' => $craftedItems,
-                ];
+    
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'item_bonus' => $item->item_bonus,
+                'tier' => $item->tier,
+                'object_img' => url('images/items/' . $item->object_img),
+                'type_object' => $item->type_object,
+                'recipe' => $recipes,
+                'crafted_items' => $craftedItems,
+            ];
         });
     }
-
     public static function createWithRecipe(array $data)
     {
         DB::beginTransaction();
@@ -204,4 +214,38 @@ class Item extends Model
         $this->delete();
     }
 
+    public function getFinalItemsFromRecipes()
+    {
+        $recipes = $this->recipe()->get();
+        $finalItemIds = $recipes->pluck('item_id')->unique();
+
+        return Item::whereIn('id', $finalItemIds)->get()->keyBy('id');
+    }
+
+    public function getRecipeDetails()
+    {
+        $recipes = $this->recipe()->get();
+        $finalItems = $this->getFinalItemsFromRecipes();
+
+        $response = $recipes->map(function ($recipe) use ($finalItems) {
+            $finalItem = $finalItems->get($recipe->item_id);
+    
+            $itemsInRecipe = $recipe->items()->get()->map(function ($item) {
+                return [
+                    'name' => $item->name,
+                    'object_img' => url('/images/items/' . $item->object_img),
+                ];
+            });
+    
+            return $finalItem ? [
+                'name' => $finalItem->name,
+                'item_bonus' => $finalItem->item_bonus,
+                'tier' => $finalItem->tier,
+                'object_img' => url('/images/items/' . $finalItem->object_img),
+                'recipe' => $itemsInRecipe,
+            ] : null;
+        });
+
+        return $response->filter()->unique('name')->values();
+    }
 }

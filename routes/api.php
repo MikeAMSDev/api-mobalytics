@@ -66,6 +66,7 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['prefix' => 'item'], function () {
     Route::get('/', [ItemController::class, 'index']);
+    Route::get('/recipe', [ItemController::class, 'recipes']);
 });
 
 Route::group(['prefix' => 'synergy'], function () {

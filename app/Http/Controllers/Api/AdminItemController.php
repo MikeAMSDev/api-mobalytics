@@ -5,15 +5,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateItemRequest;
 use App\Http\Requests\CreateItemRequest;
+use App\Http\Requests\BasicItemRequest;
 use App\Models\Item;
-use App\Models\Recipe;
-use App\Models\ItemRecipe;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\JsonResponse;
 use Exception;
 
@@ -103,6 +99,4 @@ class AdminItemController extends Controller
 
         return response()->json(['message' => 'Item and all its relations deleted successfully.']);
     }
-
-
 }

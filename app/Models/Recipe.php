@@ -17,10 +17,11 @@ class Recipe extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'item_recipe', 'recipe_id', 'item_id');
+        return $this->belongsToMany(Item::class, 'item_recipe');
     }
     public function itemRecipes()
     {
         return $this->hasMany(ItemRecipe::class, 'recipe_id');
     }
+    
 }
