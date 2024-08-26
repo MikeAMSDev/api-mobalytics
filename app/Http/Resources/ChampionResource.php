@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ChampionResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transformar el recurso en un array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -24,6 +24,7 @@ class ChampionResource extends JsonResource
             'champion_icon' => url('images/champions/' . $this->champion_icon),
             'set_version' => $this->set_version,
             'stats' => $this->stats,
+            'synergies' => SynergyResource::collection($this->whenLoaded('synergies')),
         ];
     }
 }

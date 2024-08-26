@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class SynergyResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transformar el recurso en un array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
@@ -20,9 +20,9 @@ class SynergyResource extends JsonResource
             'type' => $this->type,
             'icon_synergy' => asset('images/synergies/' . $this->icon_synergy),
             'description' => $this->description,
-            'synergy_activation' => $this->synergy_activation,
+            'synergy_activation' => json_encode($this->synergy_activation),
             'set_version' => $this->set_version,
-            'good_for' => ChampionResource::collection($this->champions),
+            'good_for' => ChampionResource::collection($this->whenLoaded('champions')),
         ];
     }
 }

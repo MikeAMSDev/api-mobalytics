@@ -26,6 +26,10 @@ class Champion extends Model
         return $this->belongsToMany(Item::class);
     }
 
+    public function synergies()
+    {
+        return $this->belongsToMany(Synergy::class, 'champion_synergy', 'champion_id', 'synergy_id');
+    }
     protected $table = 'champions';
 
     public function formation()
