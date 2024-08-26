@@ -20,7 +20,7 @@ class SynergyResource extends JsonResource
             'type' => $this->type,
             'icon_synergy' => asset('images/synergies/' . $this->icon_synergy),
             'description' => $this->description,
-            'synergy_activation' => json_encode($this->synergy_activation),
+            'synergy_activation' => json_decode($this->synergy_activation),
             'set_version' => $this->set_version,
             'good_for' => ChampionResource::collection($this->whenLoaded('champions')),
         ];
