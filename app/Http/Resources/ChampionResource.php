@@ -20,7 +20,7 @@ class ChampionResource extends JsonResource
             'description' => $this->description,
             'cost' => $this->cost,
             'champion_img' => url('images/champions/' . $this->champion_img),
-            'ability' => $this->ability,
+            'ability' => json_decode($this->ability),
             'champion_icon' => url('images/champions/' . $this->champion_icon),
             'set_version' => $this->set_version,
             'stats' => json_decode($this->stats),

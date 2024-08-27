@@ -15,11 +15,6 @@ public function index(Request $request)
     $typeObject = $request->input('type_object');
     $items = Item::getItemsWithRequiredItems($typeObject);
 
-    $items = $items->map(function ($item) {
-        $item['object_img'] = asset('images/items/' . $item['object_img']);
-        return $item;
-    });
-
     return response()->json($items);
 }
 
