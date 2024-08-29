@@ -10,6 +10,8 @@ use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\AdminItemController;
 use App\Http\Controllers\Api\SynergyController;
 use App\Http\Controllers\Api\AdminSynergyController;
+use App\Http\Controllers\Api\AugmentController;
+use App\Models\Augment;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +75,9 @@ Route::group(['prefix' => 'synergy'], function () {
     Route::get('/', [SynergyController::class, 'index']);
 });
 
+Route::group(['prefix' => 'augment'], function () {
+    Route::get('/', [AugmentController::class, 'index']);
+});
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
