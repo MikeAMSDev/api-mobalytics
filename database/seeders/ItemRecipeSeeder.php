@@ -497,25 +497,25 @@ class ItemRecipeSeeder extends Seeder
             ],
             [
                 'recipe_id' => 42,
-                'item_id' => 7,
+                'item_id' => 8,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'recipe_id' => 42,
+                'item_id' => 8,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'recipe_id' => 43,
                 'item_id' => 7,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'recipe_id' => 43,
-                'item_id' => 8,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'recipe_id' => 43,
-                'item_id' => 8,
+                'item_id' => 7,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

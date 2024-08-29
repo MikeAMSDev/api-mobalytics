@@ -39,4 +39,54 @@ class Champion extends Model
                     ->withTimestamps();
     }
 
+    public static function getChampion($typeTier = null, $cost = null, $classSynergy = null, $originSynergy = null){
+        $query = self::query();
+
+        if ($typeTier) {
+            $query->where('name', $typeTier);
+        }
+
+        if ($cost) {
+            $query->where('cost', $cost);
+        }
+
+        if ($classSynergy) {
+            $query->whereHas('synergies', function ($q) use ($classSynergy) {
+                $q->where('name', $classSynergy)
+                  ->where('type', 'Classes');
+            });
+        }
+    
+        if ($originSynergy) {
+            $query->whereHas('synergies', function ($q) use ($originSynergy) {
+                $q->where('name', $originSynergy)
+                  ->where('type', 'Origins');
+            });
+        }
+
+        $champions = $query->with(['synergies'])->get();
+        
+        if ($champions->isEmpty()) {
+            return response()->json([
+                'error' => 'No champions found matching the given criteria.'
+            ], 404);
+        }
+
+        return $query->with(['synergies'])->get();
+
+    }
+
+    public static function findOrFailChampions($name)
+    {
+        $champion = self::with(['synergies.champions.synergies'])->where('name', $name)->first();
+    
+        if (!$champion) {
+            return response()->json([
+                'error' => 'Champion not found'
+            ], 404);
+        }
+    
+        return $champion;
+    }
+
 }
