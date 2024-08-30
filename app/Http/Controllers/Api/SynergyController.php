@@ -13,6 +13,10 @@ class SynergyController extends Controller
     {
         $typeSynergy = $request->input('type');
         $synergies = Synergy::getSynergyWithType($typeSynergy);
+
+        if ($typeSynergy && !in_array($typeSynergy, Synergy::VALID_TYPE_SYNERGY)) {
+            return response()->json(['error' => 'Invalid type value.'], 400);
+        }
     
         return SynergyResource::collection($synergies);
     }

@@ -28,7 +28,7 @@ class UpdateSynergyRequest extends FormRequest
             'description' => 'required|string',
             'icon_synergy' => 'nullable|string|max:255',
             'synergy_activation' => 'required|array',
-            'set_version' => 'required|integer',
+            'set_version' => 'required|integer|between:1,12',
         ];
     }
 
@@ -55,6 +55,7 @@ class UpdateSynergyRequest extends FormRequest
             
             'set_version.required' => 'The set version field is required.',
             'set_version.integer' => 'The set version field must be an integer.',
+            'set_version.between' => 'The set version can only be from 1 to 12.',
         ];
     }
 

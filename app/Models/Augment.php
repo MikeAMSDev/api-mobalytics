@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Augment extends Model
 {
@@ -18,19 +19,43 @@ class Augment extends Model
         return $this->hasMany(Composition::class);
     }
 
-    public static function getAugmentWithTier($typeTier = null){
+    public static function getAugmentWithTier($typeTier = null)
+    {
         $query = self::query();
 
-        if ($typeTier && !in_array($typeTier, self::VALID_TIER)) {
-            return response()->json(['error' => 'Invalid type value.'], 400);
-        }
-        
         if ($typeTier) {
             $query->where('tier', $typeTier);
         }
 
         return $query->get();
+    }
 
+    public static function findOrFailAugments($id)
+    {
+        $augment = self::find($id);
+
+        if (!$augment) {
+            return response()->json('Augment not found', 404);
+        }
+
+        return $augment;
+    }
+
+    public static function createAugment(array $data)
+    {
+        return self::create($data);
+    }
+
+    public function updateAugment(array $data)
+    {
+        return $this->update($data);
+    }
+
+    public function deleteAugment()
+    {
+        DB::table('augment_comp')->where('augment_id', $this->id)->delete();
+
+        $this->delete();
     }
 
 }

@@ -312,7 +312,7 @@ class SynergySeeder extends Seeder
                 'name' => 'Multistriker',
                 'type' => 'Classes',
                 'description' => 'Multistrikers attacks have a chance to trigger 2 additional attacks.',
-                'icon_synergy' => 'multistriker.svg',
+                'icon_synergy' => 'multistriker_icon.svg',
                 'synergy_activation' => json_encode([
                     ['3' => '30% chance'],
                     ['5' => '55% chance'],

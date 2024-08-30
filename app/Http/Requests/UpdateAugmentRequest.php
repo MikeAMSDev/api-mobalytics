@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateSynergyRequest extends FormRequest
+class UpdateAugmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +25,9 @@ class CreateSynergyRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'type' => [
-                'required',
-                'string',
-                'in:' . implode(',', \App\Models\Synergy::VALID_TYPE_SYNERGY),
-            ],
             'description' => 'required|string',
-            'icon_synergy' => 'nullable|string|max:255',
-            'synergy_activation' => 'required|array',
+            'augment_img' => 'nullable|string|max:255',
+            'tier' => 'required|int|between:1,3',
             'set_version' => 'required|integer|between:1,12',
         ];
     }
@@ -43,18 +38,16 @@ class CreateSynergyRequest extends FormRequest
             'name.required' => 'The synergy name is required.',
             'name.string' => 'The name must be a string.',
             'name.max' => 'The name may not be greater than 255 characters.',
-            'type.required' => 'The synergy type is required.',
-            'type.string' => 'The type must be a string.',
-            'type.in' => 'The type must be one of the following: ' . implode(', ', \App\Models\Synergy::VALID_TYPE_SYNERGY),
             'description.required' => 'The description is required.',
             'description.string' => 'The description must be a string.',
-            'icon_synergy.string' => 'The synergy icon must be a string.',
-            'icon_synergy.max' => 'The synergy icon may not be greater than 255 characters.',
-            'synergy_activation.required' => 'The synergy activation is required.',
-            'synergy_activation.json' => 'The synergy activation must be a valid JSON.',
+            'augment_img.string' => 'The augment image must be a string.',
+            'augment_img.max' => 'The augment image may not be greater than 255 characters.',
+            'tier.required' => 'The tier is required.',
+            'tier.integer' => 'The tier must be a integer.',
+            'tier.between' => 'The tier can only be from 1 to 3.',
             'set_version.required' => 'The set version is required.',
             'set_version.integer' => 'The set version must be an integer.',
-            'set_version.in' => 'The set version can only be from 1 to 12.',
+            'set_version.between' => 'The set version can only be from 1 to 12.',
         ];
     }
 
