@@ -29,10 +29,6 @@ class Synergy extends Model
     {
         $query = self::query();
         
-        if ($typeSynergy && !in_array($typeSynergy, self::VALID_TYPE_SYNERGY)) {
-            return response()->json(['error' => 'Invalid type value.'], 400);
-        }
-        
         if ($typeSynergy) {
             $query->where('type', $typeSynergy);
         }
@@ -45,8 +41,9 @@ class Synergy extends Model
         $synergy = self::with('champions')->find($id);
 
         if (!$synergy) {
-            abort(404, 'Synergy not found');
+            return response()->json('Augment not found', 404);
         }
+
 
         return $synergy;
     }

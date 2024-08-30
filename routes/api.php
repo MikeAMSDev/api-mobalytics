@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AdminItemController;
 use App\Http\Controllers\Api\SynergyController;
 use App\Http\Controllers\Api\AdminSynergyController;
 use App\Http\Controllers\Api\AugmentController;
+use App\Http\Controllers\Api\AdminAugmentController;
 use App\Http\Controllers\Api\ChampionController;
 use App\Models\Augment;
 
@@ -53,6 +54,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/create', [AdminSynergyController::class, 'create']);
         Route::put('/update/{id}', [AdminSynergyController::class, 'update']);
         Route::delete('/delete/{id}', [AdminSynergyController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'augment', 'middleware' => ['auth:sanctum', 'App\Http\Middleware\CheckUserRole']], function () {
+        Route::get('/', [AdminAugmentController::class, 'index']);
+        Route::get('/{id}', [AdminAugmentController::class, 'show']);
+        Route::post('/create', [AdminAugmentController::class, 'create']);
+        Route::put('/update/{id}', [AdminAugmentController::class, 'update']);
+        Route::delete('/delete/{id}', [AdminAugmentController::class, 'destroy']);
     });
 
 });

@@ -18,8 +18,8 @@ class UpdateItemRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'item_bonus' => 'required|string',
-            'tier' => 'nullable|string|max:255',
-            'object_img' => 'required|string|max:255',
+            'tier' => 'required|string|in:S,A,B,N',
+            'object_img' => 'nullable|string|max:255',
             'type_object' => 'required|in:' . implode(',', \App\Models\Item::VALID_TYPE_OBJECTS),
             'recipes' => 'nullable|array|max:1',
             'recipes.*.id' => 'nullable|exists:recipes,id',
@@ -35,7 +35,11 @@ class UpdateItemRequest extends FormRequest
         return [
             'name.required' => 'Item name is required.',
             'item_bonus.required' => 'The item bonus is mandatory.',
+            'tier.required' => 'The tier field is required.',
+            'tier.string' => 'The tier field must be a string.',
+            'tier.in' => 'The tier field can be only S, A, B and N.',
             'type_object.in' => 'The selected item type is not valid.',
+            'object_img.string' => 'The object_img field must be a string.',
             'recipes.max' => 'You can only associate one recipe to the item.',
             'recipes.*.id.exists' => 'The recipe ID is invalid.',
             'recipes.*.name.required_with' => 'The recipe name is required when providing a recipe ID.',

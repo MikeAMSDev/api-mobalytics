@@ -9,6 +9,8 @@ use App\Models\Synergy;
 use App\Http\Requests\CreateSynergyRequest;
 use App\Http\Requests\UpdateSynergyRequest;
 use App\Http\Resources\SynergyResource;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class AdminSynergyController extends Controller
@@ -18,6 +20,10 @@ class AdminSynergyController extends Controller
     {
         $typeSynergy = $request->input('type');
         $synergies = Synergy::getSynergyWithType($typeSynergy);
+
+        if ($typeSynergy && !in_array($typeSynergy, Synergy::VALID_TYPE_SYNERGY)) {
+            return response()->json(['error' => 'Invalid type value.'], 400);
+        }
     
         return SynergyResource::collection($synergies);
     }
@@ -25,6 +31,10 @@ class AdminSynergyController extends Controller
     public function show($id)
     {
         $synergy = Synergy::findOrFailWithChampions($id);
+
+        if ($synergy instanceof JsonResponse) {
+            return $synergy;
+        }
 
         return new SynergyResource($synergy);
     }
@@ -47,10 +57,17 @@ class AdminSynergyController extends Controller
 
     public function destroy($id)
     {
-        $synergy = Synergy::findOrFail($id);
-        $synergy->deleteSynergy();
+        try {
+            $synergy = Synergy::findOrFail($id);
+            $synergy->deleteSynergy();
+    
+            return response()->json(['message' => 'Synergy deleted successfully.'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Synergy not found.'], 404);
+        } catch (\Exception $e) {
 
-        return response()->json(['message' => 'Synergy deleted successfully.'], 200);
+            return response()->json(['error' => 'An error occurred while deleting the synergy.'], 500);
+        }
     }
 
 }

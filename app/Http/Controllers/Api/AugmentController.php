@@ -12,6 +12,11 @@ class AugmentController extends Controller
     public function index(Request $request)
     {
         $typeAugment = $request->input('tier');
+
+        if ($typeAugment && !in_array($typeAugment, Augment::VALID_TIER)) {
+            return response()->json(['error' => 'Invalid tier value.'], 400);
+        }
+    
         $augments = Augment::getAugmentWithTier($typeAugment);
     
         return AugmentResource::collection($augments);
