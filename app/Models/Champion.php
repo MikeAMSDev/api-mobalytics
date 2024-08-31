@@ -23,9 +23,8 @@ class Champion extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Item::class, 'champion_item', 'champion_id', 'item_id');
     }
-
     public function synergies()
     {
         return $this->belongsToMany(Synergy::class, 'champion_synergy', 'champion_id', 'synergy_id');
@@ -78,14 +77,18 @@ class Champion extends Model
 
     public static function findOrFailChampions($name)
     {
-        $champion = self::with(['synergies.champions.synergies'])->where('name', $name)->first();
-    
+        $champion = self::with([
+            'synergies.champions.synergies',
+            'synergies.champions.items',
+            'items.recipes.components'
+        ])->where('name', $name)->first();
+        
         if (!$champion) {
             return response()->json([
                 'error' => 'Champion not found'
             ], 404);
         }
-    
+        
         return $champion;
     }
 

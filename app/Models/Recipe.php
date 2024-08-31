@@ -23,5 +23,10 @@ class Recipe extends Model
     {
         return $this->hasMany(ItemRecipe::class, 'recipe_id');
     }
+
+    public function components()
+    {
+        return $this->belongsToMany(Item::class, 'item_recipe', 'recipe_id', 'item_id');
+    }
     
 }
