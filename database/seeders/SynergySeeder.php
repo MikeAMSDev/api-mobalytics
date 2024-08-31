@@ -346,7 +346,7 @@ class SynergySeeder extends Seeder
                 'synergy_activation' => json_encode([
                     ['2' => '3 Mana per attack'],
                     ['4' => '6 Mana per attack'],
-                    ['6' => '10 Mana per attack'],
+                    ['6' => '12 Mana per attack'],
                 ]),
                 'set_version' => 12,
                 'created_at' => now(),

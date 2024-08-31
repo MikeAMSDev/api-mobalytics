@@ -29,10 +29,12 @@ class Item extends Model
     {
         return $this->belongsToMany(Champion::class);
     }
+
     public function recipe()
     {
         return $this->belongsToMany(Recipe::class,'item_recipe');
     }
+
     public function recipes()
     {
         return $this->hasMany(Recipe::class, 'item_id');

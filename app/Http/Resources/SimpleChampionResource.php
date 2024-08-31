@@ -7,11 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SimpleChampionResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -21,6 +16,7 @@ class SimpleChampionResource extends JsonResource
             'champion_img' => asset('images/champions/' . $this->champion_img),
             'champion_icon' => asset('images/champions/' . $this->champion_icon),
             'synergies' => SimpleSynergyResource::collection($this->whenLoaded('synergies')),
+            'recommended_items' => ItemResource::collection($this->whenLoaded('items')),
         ];
     }
 }
