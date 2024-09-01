@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Composition extends Model
 {
@@ -45,5 +46,43 @@ class Composition extends Model
         return $this->belongsTo(Tier::class);
     }
 
+    public function formations()
+    {
+        return $this->hasMany(Formation::class, 'compo_id');
+    }
+
+    public function userCompo()
+    {
+        return $this->hasOne(UserCompo::class, 'composition_id');
+    }
+
+    public static function createWithFormations(array $compositionData, array $formationsData, int $userId)
+    {
+        return DB::transaction(function () use ($compositionData, $formationsData, $userId) {
+
+            $composition = self::create($compositionData);
+
+            foreach ($formationsData as $formationData) {
+                $itemIds = $formationData['item_ids'] ?? [];
+
+                foreach ($itemIds as $itemId) {
+                    Formation::create([
+                        'champion_id' => $formationData['champion_id'],
+                        'slot_table' => $formationData['slot_table'],
+                        'compo_id' => $composition->id,
+                        'star' => $formationData['star'],
+                        'item_id' => $itemId
+                    ]);
+                }
+            }
+
+            UserCompo::create([
+                'user_id' => $userId,
+                'composition_id' => $composition->id,
+            ]);
+
+            return $composition;
+        });
+    }
 }
 

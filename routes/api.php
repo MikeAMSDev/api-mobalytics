@@ -97,6 +97,7 @@ Route::group(['prefix' => 'champion'], function () {
 
 Route::group(['prefix' => 'comp-builder'], function () {
     Route::get('/', [TeamBuilderController::class, 'index']);
+    Route::post('/create', [TeamBuilderController::class, 'create'])->middleware(['auth:sanctum']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

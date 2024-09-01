@@ -4,12 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Champion;
 use App\Models\Item;
+use App\Models\Composition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateCompositionRequest;
 use App\Http\Resources\SimpleChampionResource;
 use App\Http\Resources\SimpleItemResource;
 use App\Http\Requests\FilterChampionRequest;
 use App\Http\Requests\FilterItemRequest;
+use App\Http\Resources\CompositionResource;
+use Illuminate\Database\QueryException;
+use Illuminate\Validation\ValidationException;
+
 
 
 class TeamBuilderController extends Controller
@@ -36,6 +42,34 @@ class TeamBuilderController extends Controller
             }
 
             return response()->json(SimpleChampionResource::collection($champions));
+        }
+    }
+
+    public function create(CreateCompositionRequest $request)
+    {
+        try {
+
+            $composition = Composition::createWithFormations(
+                $request->validated(),
+                $request->formations,
+                auth()->id()
+            );
+            return new CompositionResource($composition);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'error' => 'Validation failed',
+                'messages' => $e->errors()
+            ], 422);
+        } catch (QueryException $e) {
+            return response()->json([
+                'error' => 'An error occurred while saving the composition.',
+                'message' => 'There was a problem processing your request. Please try again later.'
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An unexpected error occurred.',
+                'message' => 'There was a problem processing your request. Please try again later.'
+            ], 500);
         }
     }
 }
