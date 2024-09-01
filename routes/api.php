@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\AdminSynergyController;
 use App\Http\Controllers\Api\AugmentController;
 use App\Http\Controllers\Api\AdminAugmentController;
 use App\Http\Controllers\Api\ChampionController;
+use App\Http\Controllers\Api\TeamBuilderController;
 use App\Models\Augment;
 
 /*
@@ -92,6 +93,10 @@ Route::group(['prefix' => 'augment'], function () {
 Route::group(['prefix' => 'champion'], function () {
     Route::get('/', [ChampionController::class, 'index']);
     Route::get('/{name}', [ChampionController::class, 'show']);
+});
+
+Route::group(['prefix' => 'comp-builder'], function () {
+    Route::get('/', [TeamBuilderController::class, 'index']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

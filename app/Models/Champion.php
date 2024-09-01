@@ -38,6 +38,33 @@ class Champion extends Model
                     ->withTimestamps();
     }
 
+    public static function getChampionsWithFilters($filters = [])
+    {
+        $query = self::query();
+
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (!empty($filters['synergy'])) {
+            $query->whereHas('synergies', function ($q) use ($filters) {
+                $q->where('name', $filters['synergy']);
+            });
+        }
+
+        if (!empty($filters['cost'])) {
+            $query->where('cost', $filters['cost']);
+        }
+
+        if (!empty($filters['alphabetical_order']) && $filters['alphabetical_order'] === 'asc') {
+            $query->orderBy('name', 'asc');
+        } elseif (!empty($filters['alphabetical_order']) && $filters['alphabetical_order'] === 'desc') {
+            $query->orderBy('name', 'desc');
+        }
+
+        return $query->with(['synergies', 'items'])->get();
+    }
+
     public static function getChampion($typeTier = null, $cost = null, $classSynergy = null, $originSynergy = null){
         $query = self::query();
 
