@@ -55,6 +55,23 @@ class Item extends Model
         return $this->belongsTo(Tier::class);
     }
 
+    public static function getItemsWithFilters($filters = [])
+    {
+        $query = self::query();
+
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (!empty($filters['recipe_object'])) {
+            $query->whereHas('recipes.items', function ($q) use ($filters) {
+                $q->where('name', 'like', '%' . $filters['recipe_object'] . '%');
+            })->with(['recipes.items']);
+        }
+
+        return $query->get();
+    }
+
     public static function getItemsWithRequiredItems($typeObject = null)
     {
         $query = self::with([
