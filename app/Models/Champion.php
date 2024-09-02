@@ -69,7 +69,8 @@ class Champion extends Model
         $query = self::query();
 
         if ($typeTier) {
-            $query->where('name', $typeTier);
+            $searchTerm = str_replace(' ', '%', $typeTier);
+            $query->where('name', 'like', '%' . $searchTerm . '%');
         }
 
         if ($cost) {

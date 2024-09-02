@@ -23,59 +23,52 @@ class CreateCompositionRequest extends FormRequest
             'description' => 'required|string|max:255',
             'playing_style' => 'required|string|max:255|in:Fast 9,Level 7 Slow Roll,Level 6 Slow Roll,Level 5 Slow Roll,Hyper Roll,Default,Fast 8, Slow Roll',
             'tier' => 'required|in:S,A,B,M,N',
-            'prio_carrusel' => 'required|json',
             'difficulty' => 'required|in:Easy,Medium,Hard',
             'formations' => 'required|array|min:1|max:10',
-            'formations.*.champion_id' => 'required|integer|distinct',
-            'formations.*.slot_table' => 'required|json',
+            'formations.*.champion_id' => 'required|integer',
+            'formations.*.slot_table' => 'required|integer',
             'formations.*.star' => 'required|boolean',
             'formations.*.item_id' => 'nullable|integer',
+
+            'prio_carrusel' => 'nullable|array|min:0|max:6',
+            'prio_carrusel.*.item_id' => 'required|integer',
+
+            'augments' => 'nullable|array',
+            'augments.tier_1' => 'nullable|array|min:0|max:3',
+            'augments.tier_1.*' => 'integer',
+            'augments.tier_2' => 'nullable|array|min:0|max:3',
+            'augments.tier_2.*' => 'integer',
+            'augments.tier_3' => 'nullable|array|min:0|max:3',
+            'augments.tier_3.*' => 'integer',
         ];
     }
-
+    
     public function messages()
     {
         return [
-            'name.required' => 'The composition name is required.',
-            'name.string' => 'The composition name must be a string.',
-            'name.max' => 'The composition name must not exceed 255 characters.',
-        
-            'description.required' => 'The description is required.',
-            'description.string' => 'The description must be a string.',
-            'description.max' => 'The description must not exceed 255 characters.',
-        
-            'playing_style.required' => 'The playing style is required.',
-            'playing_style.string' => 'The playing style must be a string.',
-            'playing_style.max' => 'The playing style must not exceed 255 characters.',
-            'playing_style.in' => 'The selected playing style is not valid.',
-        
-            'tier.required' => 'The tier is required.',
-            'tier.in' => 'The selected tier is not valid.',
 
-            'prio_carrusel.required' => 'The prio_carrusel is required.' ,
-        
-            'difficulty.required' => 'The difficulty is required.',
-            'difficulty.in' => 'The selected difficulty is not valid.',
-        
-            'formations.required' => 'At least one formation must be provided.',
-            'formations.array' => 'Formations must be an array.',
-            'formations.min' => 'At least one formation must be provided.',
-            'formations.max' => 'You cannot provide more than 10 formations.',
-        
-            'formations.*.champion_id.required' => 'The champion ID is required.',
-            'formations.*.champion_id.integer' => 'The champion ID must be an integer.',
-            'formations.*.champion_id.distinct' => 'The champion ID must be unique in each formation.',
-        
-            'formations.*.slot_table.required' => 'The champion’s slot is required.',
-            'formations.*.slot_table.json' => 'The champion’s slot must be a valid JSON.',
-        
-            'formations.*.star.required' => 'The star field is required.',
-            'formations.*.star.boolean' => 'The star field must be a boolean value.',
-        
-            'formations.*.item_id.integer' => 'The item ID must be an integer.',
-    ];
-}
+            'prio_carrusel.array' => 'Prio Carrusel debe ser un array.',
+            'prio_carrusel.min' => 'Prio Carrusel debe tener al menos 0 objetos.',
+            'prio_carrusel.max' => 'Prio Carrusel no puede tener más de 6 objetos.',
+            'prio_carrusel.*.item_id.required' => 'Cada objeto en Prio Carrusel debe tener un ID válido.',
+            'prio_carrusel.*.item_id.integer' => 'El ID del objeto en Prio Carrusel debe ser un entero.',
 
+            'augments.tier_1.array' => 'Tier 1 Augments debe ser un array.',
+            'augments.tier_1.min' => 'Tier 1 Augments debe tener al menos 0 elementos.',
+            'augments.tier_1.max' => 'Tier 1 Augments no puede tener más de 3 elementos.',
+            'augments.tier_1.*.integer' => 'Cada ID de Tier 1 Augments debe ser un entero.',
+    
+            'augments.tier_2.array' => 'Tier 2 Augments debe ser un array.',
+            'augments.tier_2.min' => 'Tier 2 Augments debe tener al menos 0 elementos.',
+            'augments.tier_2.max' => 'Tier 2 Augments no puede tener más de 3 elementos.',
+            'augments.tier_2.*.integer' => 'Cada ID de Tier 2 Augments debe ser un entero.',
+    
+            'augments.tier_3.array' => 'Tier 3 Augments debe ser un array.',
+            'augments.tier_3.min' => 'Tier 3 Augments debe tener al menos 0 elementos.',
+            'augments.tier_3.max' => 'Tier 3 Augments no puede tener más de 3 elementos.',
+            'augments.tier_3.*.integer' => 'Cada ID de Tier 3 Augments debe ser un entero.',
+        ];
+    }
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json($validator->errors(), 422));

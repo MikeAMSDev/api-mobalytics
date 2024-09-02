@@ -18,8 +18,11 @@ class CompositionResource extends JsonResource
             'playing_style' => $this->playing_style,
             'tier' => $this->tier,
             'difficulty' => $this->difficulty,
-            'prio_carrusel' => $this->prio_carrusel,
             'formations' => FormationResource::collection($this->formations),
+            'prio_carrusel' => PrioCarruselResource::collection($this->prioCarrusel),
+            'augments' => $this->augments->groupBy('tier')->map(function ($items, $tier) {
+                return $items->pluck('augment_id');
+            }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

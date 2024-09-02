@@ -15,6 +15,7 @@ use App\Http\Requests\FilterItemRequest;
 use App\Http\Resources\CompositionResource;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -51,9 +52,12 @@ class TeamBuilderController extends Controller
 
             $composition = Composition::createWithFormations(
                 $request->validated(),
-                $request->formations,
+                $request->input('formations', []),
+                $request->input('prio_carrusel', []),
+                $request->input('augments', []),
                 auth()->id()
             );
+
             return new CompositionResource($composition);
         } catch (ValidationException $e) {
             return response()->json([

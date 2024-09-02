@@ -20,7 +20,6 @@ class CompositionSeeder extends Seeder
             [
                 'name' => 'Noxus Empire',
                 'description' => 'New Comp',
-                'prio_carrusel' => json_encode(['B.F. Sword', 'Chain Vest', 'Giants Belt', 'Negatron Cloak', 'Recurve Bow']),
                 'playing_style' => 'fast 8',
                 'tier' => 'S',
                 'difficulty' => 'Easy',
