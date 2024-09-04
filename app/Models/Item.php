@@ -55,6 +55,11 @@ class Item extends Model
         return $this->belongsTo(Tier::class);
     }
 
+    public function formation()
+    {
+        return $this->belongsTo(Formation::class);
+    }
+
     public static function getItemsWithFilters($filters = [])
     {
         $query = self::query();

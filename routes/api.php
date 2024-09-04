@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\AugmentController;
 use App\Http\Controllers\Api\AdminAugmentController;
 use App\Http\Controllers\Api\ChampionController;
 use App\Http\Controllers\Api\TeamBuilderController;
+use App\Http\Controllers\Api\MyCompController;
 use App\Models\Augment;
 
 /*
@@ -98,6 +99,12 @@ Route::group(['prefix' => 'champion'], function () {
 Route::group(['prefix' => 'comp-builder'], function () {
     Route::get('/', [TeamBuilderController::class, 'index']);
     Route::post('/create', [TeamBuilderController::class, 'create'])->middleware(['auth:sanctum']);
+});
+
+Route::group(['prefix' => 'my-comps', 'middleware' => ['auth:sanctum']], function () {
+    Route::get('/', [MyCompController::class, 'index']);
+    Route::put('/update/{id}', [MyCompController::class, 'update']);
+    Route::delete('/delete/{id}', [MyCompController::class, 'destroy']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

@@ -38,6 +38,11 @@ class Champion extends Model
                     ->withTimestamps();
     }
 
+    public function formations()
+    {
+        return $this->hasMany(Formation::class);
+    }
+
     public static function getChampionsWithFilters($filters = [])
     {
         $query = self::query();

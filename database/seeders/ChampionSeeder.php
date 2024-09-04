@@ -24,18 +24,21 @@ class ChampionSeeder extends Seeder
                     'health' => '1200 / 2160 / 3888',
                     'damage' => '85 / 128 / 191',
                     'dps' => '77 / 115 / 172',
-                    'mr' => 60,
-                    'armor' => 60,
-                    'speed' => 0.9,
+                    'mr' => '60',
+                    'armor' => '60',
+                    'speed' => '0.9',
                     'mana' => '30 / 100',
-                    'range' => 1,
+                    'range' => '1',
                 ]),
                 'ability' => json_encode([
                     'name' => 'Temporal Anomaly',
+                    'img' => 'camiller.svg',
                     'description' => 'On target death, hookshot to the lowest percent health enemy within 3 hexes and deal physical damage. After a hookshot or Ability cast, the next attack deals true damage.Active: Camille knocks back and Stun enemies adjacent to the target for 1 seconds, dealing physical damage. Create a containment zone around the target for 4 seconds. Gain 30% Durability and 225% Attack Damage while in the zone.',
-                    'hookshot and ability damage' => '165% / 165% / 800%',
-                    'true damage ad' => '170% / 170% / 800%',
-                    'true damage ap' => '170% / 170% / 800%',
+                    'damage' => [
+                        'true_damage_ad' => '170% / 170% / 800%',
+                        'true_damage_ap' => '170% / 170% / 800%',
+                        'hookshot_and_ability_damage' => '165% / 165% / 800%',
+                    ],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -60,10 +63,12 @@ class ChampionSeeder extends Seeder
                 'ability' => json_encode([
                     'name' => 'Certain Death',
                     'description' => 'Briar leaps to the largest group of enemies, dealing physical damage to enemies in a 2-hex radius and Stun them for 1.25 second. Then enter a frenzy, gaining Attack Speed, 15% Omnivamp, and causing attacks to deal bonus physical damage to the target and adjacent enemies.If already frenzied, empower the next attack to chomp, dealing physical damage.',
+                    'img' => 'briar.svg',
+                    'damage' => [
                     'leap damage' => '100% / 100% / 500%',
                     'frenzy attack speed' => '60% / 60% / 666%',
                     'frenzy cleave damage' => '40% / 40% / 200%',
-                    'chomp damage' => '200% / 200% / 999%',
+                    'chomp damage' => '200% / 200% / 999%',],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -87,11 +92,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Snowfall',
+                    'img' => 'dianar.svg',
                     'description' => 'Diana dashes within 2 hexes to hit the most enemies and heals herlsef. Excess healing becomes a 3 second Shield. Then, deal magic damage to adjacent enemies and magic damage to enemeis 2 hexes away.Every 2 casts create a snowfall that Chills all enemies and heals all allies. Excess healing also becomes a 3 second Shield.Chill: Reduce Attack Speed by 20%',
+                    'damage' => [                    
                     'adjacent unit damage' => '380% / 570% / 9001%',
                     'outer unit damage' => '170% / 255% / 9000%',
                     'self heal' => '200% / 250% / 3000%',
-                    'team heal' => '150% / 200% / 1500%',
+                    'team heal' => '150% / 200% / 1500%',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -115,9 +123,11 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Eye of the Magus',
+                    'img' => 'xerathr.svg',
                     'description' => 'Xerath launches arcane blasts at random enemies that each deal damage.',
+                    'damage' => [                    
                     'magic damage' => '200% / 300% / 666%',
-                    'number of blasts' => '10 / 10 / 99',
+                    'number of blasts' => '10 / 10 / 99',],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -141,10 +151,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'My Lovely Pets',
+                    'img' => 'morganar.svg',
                     'description' => 'Morgana gains a shield for 4 seconds and summon a swarm of bats that seek out the 4 closest enemies within 3-hexes, dealing magic damage to enemies below 25% Health.',
-                    'number of bats' => '8 / 8 / 30',
-                    'magic damage' => '140% / 210% / 888%',
-                    'shield' => '400% / 525% / 2500%',
+                    'damage' => [
+                        'number of bats' => '8 / 8 / 30',
+                        'magic damage' => '140% / 210% / 888%',
+                        'shield' => '400% / 525% / 2500%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -168,10 +182,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Here It Comes!',
+                    'img' => 'millior.svg',
                     'description' => 'Milio opens his backpack, granting completed items to allies with open slots and throwing 3 knickknacks at enemies which each deal magic damage. If an ally has no room for items, they instead gain a stacking 11% damage increase for the rest of combat.Occasionally finds something special in his backpack.',
+                    'damage' => [                    
                     'number of items' => '2 / 2 / 10',
                     'magic damage' => '290 / 435 / 3000',
-                    'something special chance' => '1% / 1% / 100%',
+                    'something special chance' => '1% / 1% / 100%',],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -194,12 +210,14 @@ class ChampionSeeder extends Seeder
                     'range' => 5,
                 ]),
                 'ability' => json_encode([
-                    'name' => 'Learning to Fly',
+                    'name' => 'Learning To Fly',
+                    'img' => 'smolderr.svg',
                     'description' => 'Fly around and attack the nearest enemy.Active: Gain Attack Speed and replace Smolders attacks with fireballs that deal physical damage for 6 seconds.Dragon Upgrade: Each fireball also heals 20 Health.',
+                    'damage' => [                    
                     'bonus attack speed' => '50% / 50% / 500%',
                     'damage ad' => '185% / 190% / 888%',
                     'damage ap' => '25% / 40% / 888%',
-                    'dragon upgrade heal' => '20 / 30 / 200',
+                    'dragon upgrade heal' => '20 / 30 / 200',],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -223,9 +241,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Portalpalooza',
+                    'img' => 'norrar.svg',
                     'description' => 'Norra launches a ball at the current target that explodes for magic damage, and colors the area for 3 seconds, dealing magic damage per second. If the ball lands in an area that is already colored, it will bounce to a new location within 2-hexes before exploding.',
-                    'magic damage' => '220% / 330% / 3000%',
-                    'damage over time' => '500% / 750% / 3000%',
+                    'damage' => [
+                        'magic damage' => '220% / 330% / 3000%',
+                        'damage over time' => '500% / 750% / 3000%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -249,9 +271,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Snip Snip!',
+                    'img' => 'gwenr.svg',
                     'description' => 'Every 2 casts, Gwen gains a Snip! stack.Active: Dash and snip twice plus once for every Snip! stack. Each snip deals magic damage in a cone.',
+                    'damage' => [                    
                     'snip base damage' => '125% / 175% / 525%',
-                    'Small Snip Base Damage' => '50% / 75% / 225%',
+                    'Small Snip Base Damage' => '50% / 75% / 225%',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -275,10 +300,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Borrowed Time',
+                    'img' => 'karmar.svg',
                     'description' => 'Karma attaches a temporal rift to the closest unaffected enemy for some seconds that deals magic damage over the duration. If they die while affected, the rift implodes into stardust, healing adjacent allies for % of the allys max health.',
-                    'magic damage' => '190% / 285% / 1600%',
-                    'rift duration' => '6 / 6 / 4 sec',
-                    'ally heal' => '8% / 8% / 20%',
+                    'damage' =>[
+                        'magic damage' => '190% / 285% / 1600%',
+                        'rift duration' => '6 / 6 / 4 sec',
+                        'ally heal' => '8% / 8% / 20%',
+                    ],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -302,9 +330,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Ragnarok',
+                    'img' => 'olafr.svg',
                     'description' => 'Every 4 attacks or if not in range of the target, Olaf leaps at them and does a slam that deals physical damage to the target and adjacent enemies.Active: For the next 5 seconds, gain attack speed, 12% Omnivamp, and crowd control immunity.',
+                    'damage' => [                    
                     'slam damage' => '160% / 160% / 350%',
-                    'attack speed' => '90% / 100% / 300%',
+                    'attack speed' => '90% / 100% / 300%',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -328,10 +359,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Hellhound',
+                    'img' => 'nasusr.svg',
                     'description' => 'Nasus steals Health divided between the nearest enemies and reduce max mana by 10. Subsequent casts heal and deal 20% physical damage to Nasus target.',
+                    'damage' => [                    
                     'health steal' => '250 / 250 / 2000',
                     'number of enemies' => '3 / 4 / 10',
-                    'Healing' => '250% / 300% / 900% AP',
+                    'Healing' => '250% / 300% / 900% AP',],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -355,9 +388,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'All Eyes on Me',
+                    'img' => 'taricr.svg',
                     'description' => 'Redirect all nearby projectiles into Taric and gain damage reduction for 4 seconds. At the end, release a nova that deals magic damage in a 2-hex area.',
-                    'damage reduction' => '55% / 60% / 90%',
-                    'base damage' => '100% / 150% / 1000% + 50 / 75 / 600',
+                    'damage' => [
+                        'damage reduction' => '55% / 60% / 90%',
+                        'base damage' => '100% / 150% / 1000% + 50 / 75 / 600',
+                    ],
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -381,9 +417,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Divination Dive',
+                    'img' => 'tahmkenchr.svg',
                     'description' => 'Tahm Kench dives below and surface next to the closest enemy, sending ripples towards the farthest enemy within 4-hexes. Enemies within two hexes, and those struck by the whirlpool take magic damage and are knocked up for some seconds.',
-                    'damage' => '100% / 150% / 1000% AP + 3% Health',
-                    'stunt duration' => '1.75 / 2 / 8',
+                    'damage' => [
+                        'damage' => '100% / 150% / 1000% AP + 3% Health',
+                        'stunt duration' => '1.75 / 2 / 8',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -407,9 +447,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Runic Portal',
+                    'img' => 'ryzer.svg',
                     'description' => 'Ryze opens portals that fire bolts at nearby enemies. Each bolt deals magic damage.',
-                    'damage' => '80% / 120% / 300%',
-                    'number of bolts' => '10 / 10 / 20 + 1 per 40% AS',
+                    'damage' => [
+                        'damage' => '80% / 120% / 300%',
+                        'number of bolts' => '10 / 10 / 20 + 1 per 40% AS',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -433,10 +477,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Lunge',
+                    'img' => 'fiorar.svg',
                     'description' => 'Fiora leaps backward and brace, briefly gaining 70% damage reduction. Then, sweep through the most enemies within 2 hexes, dealing physical damage to each enemy plus split between all enemies hit.',
-                    'base damage' => '180% / 180% / 360%',
-                    'damage ad' => '350% / 350% / 700%',
-                    'damage ap' => '40% / 60% / 300%',
+                    'damage' => [
+                        'base damage' => '180% / 180% / 360%',
+                        'damage ad' => '350% / 350% / 700%',
+                        'damage ap' => '40% / 60% / 300%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -460,9 +508,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Rend',
+                    'img' => 'kalistar.svg',
                     'description' => ' Kalista attacks embed a spear in her target and every 3 attacks, embed a spear in nearby enemies.Active: Leaps to safety and deals physical damage per spear to enemies with spears in them.',
-                    'number of spears' => '2 / 2 / 3',
-                    'spear damage' => '35% / 35% / 100% AD + 6 / 11 / 35 AP',
+                    'damage' => [
+                        'number of spears' => '2 / 2 / 3',
+                        'spear damage' => '35% / 35% / 100% AD + 6 / 11 / 35 AP',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -486,9 +538,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Leviathan',
+                    'img' => 'namir.svg',
                     'description' => 'Nami fires a bubble at the largest group of enemies within Namis range, dealing magic damage. Every 3rd cast, instead summons The Leviathan, dealing damage to enemies in a line and knocking them up.',
+                    'damage' => [                    
                     'bubble damage' => '220% / 330% / 1500%',
-                    'leviathan damage' => '200% / 300% / 1200%',
+                    'leviathan damage' => '200% / 300% / 1200%',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -512,10 +567,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Hail of Hellfire',
+                    'img' => 'varusr.svg',
                     'description' => 'Varus fires a supernova at the largest clump of enemies within Attack Range plus 1 hexes that deals physical damage to the target and adjacent enemies. It explodes into a cluster of fireballs, each dealing physical damage.',
+                    'damage' => [                    
                     'supernova ad' => '270% / 275% / 600%',
                     'supernova ap' => '50% / 75% / 200%',
-                    'fireball damage' => '50% / 55% / 80% of Supernova Damage',
+                    'fireball damage' => '50% / 55% / 80% of Supernova Damage',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -539,9 +597,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Gleaming Quill',
+                    'img' => 'rakanr.svg',
                     'description' => 'Rakan gains a Shield for 4 seconds and shoots 6 feathers in a cone, dealing magic damage to enemies they hit. Then land, granting allies within 2-hexes a Shield for 4 seconds.',
+                    'damage' => [                    
                     'magic damage' => '150% / 225% / 1200% AP',
-                    'ally shield amount' => '100% / 130% / 1000% AP',
+                    'ally shield amount' => '100% / 130% / 1000% AP'],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -565,8 +626,11 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Traveling Whimsy',
+                    'img' => 'bardr.svg',
                     'description' => 'Bard launches a magic missile at the target that bounces 4 times between enemies dealing magic damage to enemies hit. They also take 10% more damage for 3 seconds.',
-                    'damage' => '110% / 165% / 265%',
+                    'damage' => [                    
+                    'damage' => '110% / 165% / 265%'],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -590,9 +654,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Portalshot Barrage',
+                    'img' => 'ezrealr.svg',
                     'description' => 'Ezreal dashes to the ideal spot within 2 hexes. Then, fire a blast in a line, dealing damage reduced by 25% each time it hits an enemy.',
+                    'damage' => [                    
                     'misssile damage ad' => '300% / 300% / 310%',
-                    'misssile damage ap' => '50% / 60% / 75%',
+                    'misssile damage ap' => '50% / 60% / 75%',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -616,9 +683,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Rampage',
+                    'img' => 'hecarimr.svg',
                     'description' => 'On takedown of the current target, Hecarim charges to the next, dealing physical damage.Active: For the next 4 seconds, Attacks cleave adjacent enemies for physical damage.',
+                    'damage' => [                    
                     'cleave damage' => '140% / 140% / 150%',
-                    'total charge damage' => '50% AD + 100% / 150% / 240% AP',
+                    'total charge damage' => '50% AD + 100% / 150% / 240% AP',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -642,8 +712,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Subject: Storm',
+                    'img' => 'hweir.svg',
                     'description' => 'Hwei paints a lightning bolt striking the target. After a short delay, the bolt strikes, dealing damage to the target and 40% of the damage to adjacent enemies. Every third cast, paint 2 extra bolts on the lowest percent Health enemies.',
-                    'bolt damage' => '130% / 200% / 320%',
+                    'damage' => [
+                        'bolt damage' => '130% / 200% / 320%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -667,8 +741,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Get Excited!',
+                    'img' => 'jinxr.svg',
                     'description' => 'Jinx gains 100% decaying Attack Speed and attacks deals bonus true damage for 4 seconds. Takedowns refresh this effect for 3 seconds.',
-                    'true damage' => '35% AD + 8% / 12% / 20% AP',
+                    'damage' => [
+                        'true damage' => '35% AD + 8% / 12% / 20% AP',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -692,8 +770,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Death Lotus',
+                    'img' => 'katarinar.svg',
                     'description' => 'Katarina blinks to the largest group of enemies within 2 hexes and deals magic damage over 3 seconds to all enemies within 2 hexes. The 2 nearest enemies take 155% increased damage.If she kills an enemy, blink and reposition again.',
-                    'damage' => '160% / 240% / 365%',
+                    'damage' => [
+                        'damage' => '160% / 240% / 365%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -717,9 +799,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Obliterate',
+                    'img' => 'mordekaiserr.svg',
                     'description' => 'Mordekaiser gains a Shield for 3 seconds and slam the target, dealing magic damage in a 2-hex line. Gain 10 Ability Power for the rest of combat.',
+                    'damage' => [                    
                     'damage' => '180% / 270% / 430%',
-                    'shield' => '200% / 250% / 325%',
+                    'shield' => '200% / 250% / 325%',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -743,10 +828,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Surprise!!!',
+                    'img' => 'neekor.svg',
                     'description' => 'Neeko transforms into a Crab for 2 seconds. Over the duration, regain 18% health and release scuttleblasts at 3 nearby allies and 3 nearby enemies. Allies hit are healed and enemies hit take magic damage and are stunned for some seconds.',
-                    'heal' => '75 / 100 / 125',
-                    'damage' => '100 / 150 / 240',
-                    'stun duration' => '1.25 / 1.25 / 1.25',
+                    'damage' => [
+                        'heal' => '75 / 100 / 125',
+                        'damage' => '100 / 150 / 240',
+                        'stun duration' => '1.25 / 1.25 / 1.25',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -770,9 +859,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Twilight Eruption',
+                    'img' => 'shenr.svg',
                     'description' => 'Shen gains Durability for 3 seconds. Create a volcanic rupture under the closest enemies which Stun for 1.5 seconds and deal magic damage.',
-                    'durability' => '35% / 35% / 40% AP',
-                    'target damage' => '120% / 180% / 300% AP',
+                    'damage' => [
+                        'durability' => '35% / 35% / 40% AP',
+                        'target damage' => '120% / 180% / 300% AP',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -796,10 +889,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Blizzard',
+                    'img' => 'swaimr.svg',
                     'description' => 'Swain transforms, gaining max Health. Subsequent casts release a cone of lightning towards the target, dealing magic damage to enemies hit and granting an additional max Health.',
-                    'magic damage' => '30% / 40% / 65%',
-                    'additional damage' => '10% / 15% / 25%',
-                    'Additional Max Health' => '150% / 200% / 275%',
+                    'damage' => [
+                        'magic damage' => '30% / 40% / 65%',
+                        'additional damage' => '10% / 15% / 25%',
+                        'Additional Max Health' => '150% / 200% / 275%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -823,8 +920,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'King Bees Judgement',
+                    'img' => 'veigarr.svg',
                     'description' => 'Has 3 Ability Power for every Charm purchased.Active: Veigar deals magic damage to the target.',
-                    'damage' => '200% / 300% / 480%',
+                    'damage' => [
+                        'damage' => '200% / 300% / 480%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -848,9 +949,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Personal Space',
+                    'img' => 'vexr.svg',
                     'description' => 'Vex gains a Shield for 4 seconds, increased by 5% for each enemy targeting Vex. When it expires, deal magic damage to enemies within 2 hexes.',
-                    'shield' => '350% / 405% / 480%',
-                    'damage' => '80% / 120% / 200%',
+                    'damage' => [
+                        'shield' => '350% / 405% / 480%',
+                        'damage' => '80% / 120% / 200%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -874,11 +979,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Cyclone',
+                    'img' => 'wukongr.svg',
                     'description' => 'Wukong gains 30% bonus Armor and Magic Resist from all sources.Active: Spin, gaining Shield for 4 seconds and dealing a total of physical damage to each adjacent enemy. Gain Attack Damage and Attack Speed for the rest of combat; this effect stacks.',
+                    'damage' => [                    
                     'shield amount' => '330% / 440% / 550%',
                     'armor percent' => '55% / 60% / 65%',
                     'magic resist percent' => '55% / 60% / 65%',
-                    'ability damage' => '80 / 120 / 195 + AR + MR',
+                    'ability damage' => '80 / 120 / 195 + AR + MR',],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -902,9 +1010,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Orb of Perception',
+                    'img' => 'ahrir.svg',
                     'description' => 'Ahri fires an orb towards the current target, dealing magic damage to all enemies it passes through. On hitting an enemy champion, it returns dealing true damage to all enemies it passes through.',
-                    'orb damage' => '135% / 200% / 310%',
-                    'true damage' => '90% / 135% / 210%',
+                    'damage' => [
+                        'orb damage' => '135% / 200% / 310%',
+                        'true damage' => '90% / 135% / 210%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -920,18 +1032,22 @@ class ChampionSeeder extends Seeder
                     'health' => '700 / 1260 / 2268',
                     'damage' => '55 / 83 / 124',
                     'dps' => '41 / 62 / 93',
-                    'mr' => 45,
-                    'armor' => 45,
-                    'speed' => 0.75,
+                    'mr' => '45',
+                    'armor' => '45',
+                    'speed' => '0.75',
                     'mana' => '10 / 70',
                     'range' => 1,
                 ]),
                 'ability' => json_encode([
                     'name' => 'Fire Point Strike',
+                    'img' => 'akalir.svg',
                     'description' => 'Akali dashes to and strike the farthest enemy within 3 hexes, dealing physical damage to them. The next 3 attacks launch kunai at the target, dealing more damage.',
-                    'dash damage' => '250% / 250% / 265%',
-                    'kunai damage ad' => '155% / 155% / 170%',
-                    'kunai damage ap' => '30% / 45% / 70%',
+                    'damage' => [
+                        'dash damage' => '250% / 250% / 265%',
+                        'kunai damage ad' => '155% / 155% / 170%',
+                        'kunai damage ap' => '30% / 45% / 70%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -955,8 +1071,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Witch Fang',
+                    'img' => 'casiopeiar.svg',
                     'description' => 'For the next 6 seconds, Cassiopeia attacks instead deal magic damage.',
-                    'damage' => '95% / 145% / 230%',
+                    'damage' => [
+                        'damage' => '95% / 145% / 230%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -980,9 +1100,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Convergence',
+                    'img' => 'galior.svg',
                     'description' => 'Galio reduces incoming damage by 15 for 4 seconds. Fire two magic bolts that converge on the furthest enemy within 3 hexes, Stunning them for 1.2 seconds. Each bolt deals magic damage to enemies it passes through.Mage casts will target a different enemy.',
-                    'flat damage reduction' => '15 / 20 / 25',
-                    'damage' => '50% / 75% / 115%',
+                    'damage' => [
+                        'flat damage reduction' => '15 / 20 / 25',
+                        'damage' => '50% / 75% / 115%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1006,10 +1130,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Nether Blade',
+                    'img' => 'kassadinr.svg',
                     'description' => 'Kassadin gains a shield for 3 seconds and stab into the current target, dealing magic damage. For the rest of combat, Kassadins attacks deal bonus stacking magic damage.',
-                    'stab damage' => '110% / 165% / 255%',
-                    'stacking damage' => '35% / 50% / 80%',
-                    'shield' => '300% / 335% / 370%',
+                    'damage' => [
+                        'stab damage' => '110% / 165% / 255%',
+                        'stacking damage' => '35% / 50% / 80%',
+                        'shield' => '300% / 335% / 370%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1033,7 +1161,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Hive Ooze',
+                    'img' => 'kogmawr.svg',
                     'description' => 'Kog`Maw launches a honey wad through the current target, dealing physical damage to enemies hit. Adjacent allies and allies hit by the trail are set abuzz, gaining Attack Speed for 4 seconds.',
+                    'damage' => [
+                        'physical damage' => '290% / 300% / 325%',
+                        'attack speed' => '20% / 25% / 30%',
+                    ],
                     'physical damage' => '290% / 300% / 325%',
                     'attack speed' => '20% / 25% / 30%',
                 ]),
@@ -1059,8 +1192,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Formless Blade',
+                    'img' => 'nilahr.svg',
                     'description' => 'On gaining Shield, Nilah gains a burst of 60% Attack Speed for 3 seconds.Active: Reposition up to 2 Hexes away, then deal phyiscal damage to enemies in a line through the target. Gain a Shield for 3 seconds.',
-                    'damage' => '360% / 360% / 380%',
+                    'damage' => [
+                        'damage' => '360% / 360% / 380%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1084,9 +1221,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Sticky Bite',
+                    'img' => 'nunur.svg',
                     'description' => 'Nunu bites the target, healing and dealing magic damage, and Chilling them for 3 seconds.Chill: Reduce Attack Speed by 20%.',
-                    'damage' => '200 / 300 / 450',
-                    'heal' => '250% / 300% / 350%',
+                    'damage' => [
+                        'damage' => '200 / 300 / 450',
+                        'heal' => '250% / 300% / 350%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1110,9 +1251,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Hot-Tea',
+                    'img' => 'rumbler.svg',
                     'description' => 'For 3 seconds, Rumble gains damage reduction and create a cone of flame that deals magic damage over the duration and Wounds enemies for 5 seconds.Wound: Reduce healing received by 33%.',
-                    'damage reduction' => '30% / 30% / 35%',
-                    'damage' => '190% of 220% / 330% / 515% AP',
+                    'damage' => [
+                        'damage reduction' => '30% / 30% / 35%',
+                        'damage' => '190% of 220% / 330% / 515% AP',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1136,9 +1281,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Dragons Descent',
+                    'img' => 'shyvanar.svg',
                     'description' => 'Shyvana transforms into dragon form and gain an aura that deals magic damage per second to adjacent enemies. Then fly through the largest group of enemies within 2 hexes. Knockup and Stun enemies hit for some seconds.Dragon Upgrade: While in dragon form, heal 1% of her maximum health whenever a burned enemy is damaged.',
-                    'damage per second' => '1.5% (max HP) + 35% / 50% / 75% AP',
-                    'stunt duration' => '1 / 1 / 1.25',
+                    'damage' => [
+                        'damage per second' => '1.5% (max HP) + 35% / 50% / 75% AP',
+                        'stunt duration' => '1 / 1 / 1.25',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1162,9 +1311,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Transcendence',
+                    'img' => 'syndrar.svg',
                     'description' => 'Syndra conjures a rift that deals magic damage and 20% Shreds the target for 5 seconds. This ability upgrades the more it is cast.15 Casts: Enemies adjacent to the target are Shredded and take magic damage. 30+ Casts: For every 30 casts, creates an additional rift that deals 35% damage.Shred: Reduce Magic Resist.',
-                    'primary target damage' => '225% / 340% / 520%',
-                    'area damage' => '110% / 170% / 260%',
+                    'damage' =>[
+                        'primary target damage' => '225% / 340% / 520%',
+                        'area damage' => '110% / 170% / 260%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1188,9 +1341,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Explosive Charge',
+                    'img' => 'tristanar.svg',
                     'description' => 'Tristana fires a cannonball at the target, dealing physical damage to the first enemy hit. If the enemy hit is within 2 hexes of Tristana, they are knocked back 2 hexes and briefly stunned.',
-                    'damage ad' => '335% / 340% / 350%',
-                    'damage ap' => '40% / 55% / 90%',
+                    'damage' => [
+                        'damage ad' => '335% / 340% / 350%',
+                        'damage ap' => '40% / 55% / 90%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1214,10 +1371,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Time Bomb',
+                    'img' => 'zileanr.svg',
                     'description' => 'Zilean places a bomb on the current target, dealing magic damage and Stunning them for 1.2 seconds. When the stun ends or the target dies, the bomb explodes, dealing magic damage to the target and magic damage to adjacent enemies.',
-                    'initial damage' => '180% / 270% / 420%',
-                    'primary explosion damage' => '180% / 270% / 420%',
-                    'secondary explosion damage' => '150% / 225% / 350%',
+                    'damage' => [
+                        'initial damage' => '180% / 270% / 420%',
+                        'primary explosion damage' => '180% / 270% / 420%',
+                        'secondary explosion damage' => '150% / 225% / 350%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1241,6 +1402,7 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Dark Tidings',
+                    'img' => 'asher.svg',
                     'description' => 'For the next 5 seconds, Ashe fires an additional missile dealing 50% physical damage at another target. This effect stacks.',
                 ]),
                 'created_at' => now(),
@@ -1265,8 +1427,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Honey Barrier',
+                    'img' => 'blitzcrankr.svg',
                     'description' => 'Blitzcrank gains a Shield for 6 seconds. When it expires, deal magic damage split between the 2 closest enemies.',
-                    'Shield' => '200% AP + 15% Health',
+                    'damage' => [
+                        'Shield' => '200% AP + 15% Health',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1290,9 +1456,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Spider Form',
+                    'img' => 'eliser.svg',
                     'description' => 'Transform into a spider and cast Petrifying Venom on the target.Petrifying Venom: Stun the target for 1.5 seconds, dealing magic damage and healing Elise.',
-                    'damage' => '8% Health + 80% AP',
-                    'heal' => '160 / 190 / 230',
+                    'damage' => [
+                        'damage' => '8% Health + 80% AP',
+                        'heal' => '160 / 190 / 230',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1316,10 +1486,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Grandmaster-At-Arms',
+                    'img' => 'jaxr.svg',
                     'description' => 'Jax deals magic damage to adjacent enemies and gain Armor and Magic Resist for 6 seconds. During this time, Attacks deal bonus magic damage.',
-                    'damage' => '80% / 120% / 180% AP',
-                    'bonus damage' => '40% / 60% / 90%',
-                    'bonus resists' => '60 / 75 / 95',
+                    'damage' => [
+                        'damage' => '80% / 120% / 180% AP',
+                        'bonus damage' => '40% / 60% / 90%',
+                        'bonus resists' => '60 / 75 / 95',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1343,9 +1517,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Hammer Form',
+                    'img' => 'jaycer.svg',
                     'description' => 'Jayce transforms into melee form gaining Armor and Magic Resist, and replacing his Ability with Hammer Slam.Hammer Slam: Leap to the current target, dealing physical damage.',
-                    'damage' => '265 / 398 / 596',
-                    'resist gain' => '35 / 35 / 35',
+                    'damage' => [
+                        'damage' => '265 / 398 / 596',
+                        'resist gain' => '35 / 35 / 35',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1369,9 +1547,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Dream Bloom',
+                    'img' => 'lilliar.svg',
                     'description' => 'Lillia heals, then deals magic damage to adjacent enemies.',
-                    'healing' => '220% / 260% / 320%',
-                    'magic damage' => '170% / 255% / 385% AP',
+                    'damage' =>[
+                        'healing' => '220% / 260% / 320%',
+                        'magic damage' => '170% / 255% / 385% AP',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1395,10 +1577,14 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Fiery Sneeze',
+                    'img' => 'nomsyr.svg',
                     'description' => 'Nomsy sneezes fire in a cone towards the target, dealing physical damage, reduced by 20% for each enemy hit.Dragon Upgrade: Instead sneeze dragonfire in a larger area. Dragonfire deals damage and ignores 50% of enemy armor.',
-                    'damage ad' => '345% / 350% / 355%',
-                    'damage ap' => '40% / 60% / 100%',
-                    'upgrade damage' => '500% AD + 40% AP',
+                    'damage' => [
+                        'damage ad' => '345% / 350% / 355%',
+                        'damage ap' => '40% / 60% / 100%',
+                        'upgrade damage' => '500% AD + 40% AP',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1422,9 +1608,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Clean-Up Duty',
+                    'img' => 'poppyr.svg',
                     'description' => 'Poppy gains a Shield for 3 seconds. Then, wallop the target for additional physical damage.',
-                    'shield' => '275 / 300 / 325',
-                    'damage' => '475% / 475% / 475%',
+                    'damage' => [
+                        'shield' => '275 / 300 / 325',
+                        'damage' => '475% / 475% / 475%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1448,8 +1638,12 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Sharp Note',
+                    'img' => 'seraphiner.svg',
                     'description' => 'Seraphine fires a soundwave towards the longest line of enemies that deals magic damage, reduced by 20% for each target struck.',
-                    'magic damage' => '220% / 330% / 495%',
+                    'damage' => [
+                        'magic damage' => '220% / 330% / 495%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1473,9 +1667,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Starfall',
+                    'img' => 'sorakar.svg',
                     'description' => 'Soraka calls down a star on the target, dealing magic damage to adjacent enemies. Heal a nearby ally. Heal increases if they are below 50% Health.',
-                    'magic damage' => '180 / 270 / 405',
-                    'heal' => '100 / 120 / 150',
+                    'damage' => [
+                        'magic damage' => '180 / 270 / 405',
+                        'heal' => '100 / 120 / 150',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1499,9 +1697,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Ice Shard',
+                    'img' => 'twitchr.svg',
                     'description' => 'Twitch fires a shard of ice at the target that pierces through enemies hit, dealing physical damage, reduced by 10% for each target hit. Targets are 20% Sundered for 5 seconds.Sunder: Reduce Armor.',
-                    'base damage' => '20 / 30 / 45',
-                    'damage' => '160% AD + Base Damage',
+                    'damage' => [
+                        'base damage' => '20 / 30 / 45',
+                        'damage' => '160% AD + Base Damage',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1525,9 +1727,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Ravenous Hunter',
+                    'img' => 'warwickr.svg',
                     'description' => 'Warwick permantly gains 1% Attack Speed and movement speed for each enemy killed. Attacks heal for Health and deal bonus physical damage. Gain double the healing and physical damage for targets below 25% Health.',
-                    'bonus damage' => '50% / 50% / 50%',
-                    'heal' => '15% / 20% / 30%',
+                    'damage' => [
+                        'bonus damage' => '50% / 50% / 50%',
+                        'heal' => '15% / 20% / 30%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1551,9 +1757,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Bouncing Bee',
+                    'img' => 'ziggsr.svg',
                     'description' => 'Ziggs throws a bouncing bee at the farthest target, gaining 7% more damage for each bounce. Explodes on the first target hit or at the end of its life, dealing magic damage to enemies in a small area.',
-                    'magic damage' => '200% / 300% / 450%',
-                    'area damage' => '100% / 150% / 225%',
+                    'damage' => [
+                        'magic damage' => '200% / 300% / 450%',
+                        'area damage' => '100% / 150% / 225%',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -1577,9 +1787,13 @@ class ChampionSeeder extends Seeder
                 ]),
                 'ability' => json_encode([
                     'name' => 'Trouble Bubble',
+                    'img' => 'zoer.svg',
                     'description' => 'Zoe kicks a bubble at her target, dealing magic damage. Reduce the targets Magic Resist for the rest of combat.',
-                    'damage' => '125% / 190% / 285%',
-                    'magic resist reduction' => '10 / 15 / 20',
+                    'damage' => [
+                        'damage' => '125% / 190% / 285%',
+                        'magic resist reduction' => '10 / 15 / 20',
+                    ],
+
                 ]),
                 'created_at' => now(),
                 'updated_at' => now(),

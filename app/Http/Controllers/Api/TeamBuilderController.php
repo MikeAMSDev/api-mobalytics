@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Models\Champion;
 use App\Models\Item;
 use App\Models\Composition;
+use App\Models\AugmentComp;
+use App\Models\Formation;
+use App\Models\PrioCarrusel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCompositionRequest;
@@ -12,10 +15,12 @@ use App\Http\Resources\SimpleChampionResource;
 use App\Http\Resources\SimpleItemResource;
 use App\Http\Requests\FilterChampionRequest;
 use App\Http\Requests\FilterItemRequest;
+use App\Http\Requests\UpdateCompositionRequest;
 use App\Http\Resources\CompositionResource;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+
 
 
 

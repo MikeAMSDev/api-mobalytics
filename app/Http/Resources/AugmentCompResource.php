@@ -14,10 +14,11 @@ class AugmentCompResource extends JsonResource
         return [
             'id' => $this->id,
             'augment_id' => $this->augment_id,
+            'name' => $this->augment->name,
+            'augment_img' => url('images/augments'. $this->augment->augment_img ),
             'composition_id' => $this->composition_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'augment' => new AugmentResource($this->whenLoaded('augment')),
         ];
     }
 }
