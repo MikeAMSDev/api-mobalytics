@@ -15,4 +15,9 @@ class PrioCarrusel extends Model
         'composition_id',
         'item_id',
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
 }

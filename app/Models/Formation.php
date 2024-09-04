@@ -15,4 +15,15 @@ class Formation extends Model
     {
         return $this->belongsTo(Composition::class, 'compo_id');
     }
+
+    public function champion()
+    {
+        return $this->belongsTo(Champion::class, 'champion_id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
+
 }

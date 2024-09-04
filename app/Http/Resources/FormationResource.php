@@ -13,6 +13,7 @@ class FormationResource extends JsonResource
     {
         return [
             'champion_id' => $this->champion_id,
+            'champion_name' => $this->champion->name,
             'slot_table' => $this->slot_table,
             'star' => $this->star,
             'item_id' => $this->item_id,
