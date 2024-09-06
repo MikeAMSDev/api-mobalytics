@@ -19,8 +19,6 @@ use App\Http\Requests\UpdateCompositionRequest;
 use App\Http\Resources\CompositionResource;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Log;
-
 
 
 
@@ -54,7 +52,6 @@ class TeamBuilderController extends Controller
     public function create(CreateCompositionRequest $request)
     {
         try {
-
             $composition = Composition::createWithFormations(
                 $request->validated(),
                 $request->input('formations', []),
@@ -70,14 +67,16 @@ class TeamBuilderController extends Controller
                 'messages' => $e->errors()
             ], 422);
         } catch (QueryException $e) {
+    
             return response()->json([
                 'error' => 'An error occurred while saving the composition.',
-                'message' => 'There was a problem processing your request. Please try again later.'
+                'message' => $e->getMessage()
             ], 500);
         } catch (\Exception $e) {
+
             return response()->json([
                 'error' => 'An unexpected error occurred.',
-                'message' => 'There was a problem processing your request. Please try again later.'
+                'message' => $e->getMessage()
             ], 500);
         }
     }

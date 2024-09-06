@@ -60,6 +60,12 @@ class Item extends Model
         return $this->belongsTo(Formation::class);
     }
 
+    public function formations()
+    {
+        return $this->belongsToMany(Formation::class, 'formation_item', 'item_id', 'formation_id')
+                    ->withPivot('compo_id');
+    }
+
     public static function getItemsWithFilters($filters = [])
     {
         $query = self::query();

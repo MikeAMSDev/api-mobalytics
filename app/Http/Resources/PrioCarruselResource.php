@@ -15,8 +15,8 @@ class PrioCarruselResource extends JsonResource
     {
         return [
             'item_id' => $this->item_id,
-            'item_name' => $this->item ? $this->item->name : null, // Asumiendo que hay una relación 'item' en el modelo PrioCarrusel
-            'item_img' => url('images/items'.$this->item->object_img),
+            'item_name' => $this->item ? $this->item->name : null,
+            'item_img' => url('images/items/'.$this->item->object_img),
         ];
     }
 }
