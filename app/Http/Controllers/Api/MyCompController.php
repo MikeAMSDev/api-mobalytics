@@ -14,14 +14,31 @@ use Exception;
 
 class MyCompController extends Controller
 {
+
     public function index(Request $request)
     {
-        $typeSynergy = $request->input('type');
-        $synergies = Composition::getComposition($typeSynergy);
-    
-        return CompositionDetailedResource::collection($synergies);
-    }
+        try {
 
+            $tier = $request->query('tier');
+            $synergyName = $request->query('synergy');
+
+            $synergies = Composition::getComposition($tier, $synergyName);
+    
+            if ($synergies->isEmpty()) {
+                return response()->json([
+                    'message' => 'No compositions found with the provided filters.'
+                ], 404);
+            }
+    
+            return CompositionDetailedResource::collection($synergies);
+    
+        } catch (Exception $e) {
+
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 400);
+        }
+    }
     public function update(UpdateCompositionRequest $request, $id)
     {
         try {

@@ -56,6 +56,11 @@ class Composition extends Model
     {
         return $this->hasMany(PrioCarrusel::class, 'composition_id');
     }
+
+    public function augment()
+    {
+        return $this->hasMany(Augment::class);
+    }
     
     public function augments()
     {
@@ -65,6 +70,11 @@ class Composition extends Model
     public function augmentsByTier($tier)
     {
         return $this->augments()->where('tier', $tier)->pluck('id');
+    }
+
+    public function formationItems()
+    {
+        return $this->hasMany(FormationItem::class, 'compo_id');
     }
 
     public static function createWithFormations(array $compositionData, array $formationsData, array $prioCarruselData, array $augmentsData, int $userId)
@@ -87,7 +97,7 @@ class Composition extends Model
             }
             $slots[] = $slot;
         }
-
+    
         $validTiers = [1, 2, 3];
         foreach ($augmentsData as $tier => $augmentIds) {
             if (!in_array($tier, $validTiers)) {
@@ -111,7 +121,7 @@ class Composition extends Model
     
         return DB::transaction(function () use ($compositionData, $formationsData, $prioCarruselData, $augmentsData, $userId) {
             $composition = self::create($compositionData);
-
+    
             $championItemCounts = [];
             foreach ($formationsData as $index => $formationData) {
                 $championId = $formationData['champion_id'];
@@ -132,23 +142,55 @@ class Composition extends Model
                 $championItemCounts[$instanceKey] = $totalItemCount;
     
                 foreach ($itemIds as $itemId) {
-                    Formation::create([
+                    $formation = Formation::create([
                         'champion_id' => $championId,
                         'slot_table' => $formationData['slot_table'],
                         'compo_id' => $composition->id,
                         'star' => $formationData['star'],
                         'item_id' => $itemId
                     ]);
+
+                    $existingEntry = DB::table('formation_item')
+                        ->where('formation_id', $formation->id)
+                        ->where('item_id', $itemId)
+                        ->where('compo_id', $composition->id)
+                        ->exists();
+                
+                    if (!$existingEntry) {
+                        DB::table('formation_item')->insert([
+                            'formation_id' => $formation->id,
+                            'item_id' => $itemId,
+                            'compo_id' => $composition->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
                 }
-    
+
                 if (empty($itemIds)) {
-                    Formation::create([
+                    $formation = Formation::create([
                         'champion_id' => $championId,
                         'slot_table' => $formationData['slot_table'],
                         'compo_id' => $composition->id,
                         'star' => $formationData['star'],
                         'item_id' => null
                     ]);
+
+                    $existingEntry = DB::table('formation_item')
+                        ->where('formation_id', $formation->id)
+                        ->whereNull('item_id')
+                        ->where('compo_id', $composition->id)
+                        ->exists();
+                
+                    if (!$existingEntry) {
+                        DB::table('formation_item')->insert([
+                            'formation_id' => $formation->id,
+                            'item_id' => null,
+                            'compo_id' => $composition->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
                 }
             }
 
@@ -176,22 +218,17 @@ class Composition extends Model
             return $composition;
         });
     }
-
     public static function updateComposition($id, array $compositionData, array $formationsData, array $prioCarruselData, array $augmentsData)
     {
         return DB::transaction(function () use ($id, $compositionData, $formationsData, $prioCarruselData, $augmentsData) {
-            // Encuentra o falla si no se encuentra la composición
             $composition = self::findOrFail($id);
             $composition->update($compositionData);
 
-            // Eliminar formaciones antiguas
             Formation::where('compo_id', $composition->id)->delete();
-            // Eliminar prio_carrusel antiguo
+            FormationItem::where('compo_id', $composition->id)->delete();
             PrioCarrusel::where('composition_id', $composition->id)->delete();
-            // Eliminar augments antiguos
             AugmentComp::where('composition_id', $composition->id)->delete();
 
-            // Validar coordenadas únicas en slot_table
             $slots = [];
             foreach ($formationsData as $formation) {
                 $slot = $formation['slot_table'];
@@ -201,7 +238,6 @@ class Composition extends Model
                 $slots[] = $slot;
             }
 
-            // Validar campeones duplicados
             $championCounts = array_count_values(array_column($formationsData, 'champion_id'));
             foreach ($championCounts as $championId => $count) {
                 if ($count > 2) {
@@ -209,89 +245,125 @@ class Composition extends Model
                 }
             }
 
-            // Insertar nuevas formaciones
             $championItemCounts = [];
             foreach ($formationsData as $index => $formationData) {
                 $itemIds = $formationData['item_ids'] ?? [];
                 $championId = $formationData['champion_id'];
                 $slotTable = $formationData['slot_table'];
                 $star = $formationData['star'];
-
+    
                 $instanceKey = $index;
                 if (!isset($championItemCounts[$instanceKey])) {
                     $championItemCounts[$instanceKey] = 0;
                 }
-
+    
                 $currentItemCount = count($itemIds);
                 $totalItemCount = $championItemCounts[$instanceKey] + $currentItemCount;
-
+    
                 if ($totalItemCount > 3) {
                     throw new Exception("The champion with ID {$championId} cannot have more than 3 items in total.");
                 }
-
+    
                 $championItemCounts[$instanceKey] = $totalItemCount;
-
+    
                 foreach ($itemIds as $itemId) {
-                    Formation::create([
-                        'champion_id' => $championId,
-                        'slot_table' => $slotTable,
-                        'compo_id' => $composition->id,
-                        'star' => $star,
-                        'item_id' => $itemId
-                    ]);
-                }
+                    $formation = Formation::updateOrCreate(
+                        [
+                            'champion_id' => $championId,
+                            'slot_table' => $slotTable,
+                            'compo_id' => $composition->id,
+                            'star' => $star,
+                            'item_id' => $itemId
+                        ],
+                        [
+                            'item_id' => $itemId
+                        ]
+                    );
 
+                    FormationItem::updateOrCreate(
+                        [
+                            'formation_id' => $formation->id,
+                            'item_id' => $itemId,
+                            'compo_id' => $composition->id
+                        ],
+                        [
+                            'formation_id' => $formation->id,
+                            'item_id' => $itemId,
+                            'compo_id' => $composition->id
+                        ]
+                    );
+                }
+    
                 if (empty($itemIds)) {
-                    Formation::create([
-                        'champion_id' => $championId,
-                        'slot_table' => $slotTable,
-                        'compo_id' => $composition->id,
-                        'star' => $star,
-                        'item_id' => null
-                    ]);
+
+                    $formation = Formation::updateOrCreate(
+                        [
+                            'champion_id' => $championId,
+                            'slot_table' => $slotTable,
+                            'compo_id' => $composition->id,
+                            'star' => $star,
+                            'item_id' => null
+                        ],
+                        [
+                            'item_id' => null
+                        ]
+                    );
+
+                    FormationItem::updateOrCreate(
+                        [
+                            'formation_id' => $formation->id,
+                            'item_id' => null,
+                            'compo_id' => $composition->id
+                        ],
+                        [
+                            'formation_id' => $formation->id,
+                            'item_id' => null,
+                            'compo_id' => $composition->id
+                        ]
+                    );
                 }
             }
 
-            // Validar y Insertar prio_carrusel
             $uniquePrioCarruselItems = array_unique(array_column($prioCarruselData, 'item_id'));
             if (count($uniquePrioCarruselItems) != count($prioCarruselData)) {
                 throw new Exception("Duplicate items are not allowed in prio_carrusel.");
             }
-
+    
             foreach ($prioCarruselData as $prioCarruselItem) {
-                $item = Item::findOrFail($prioCarruselItem['item_id']); // Asumiendo que tienes un modelo Item
+                $item = Item::findOrFail($prioCarruselItem['item_id']);
                 if ($item->type_object !== 'Basic') {
                     throw new Exception("Only Basic items are allowed in prio_carrusel. Item ID {$item->id} is not a Basic item.");
                 }
-
-                PrioCarrusel::create([
-                    'composition_id' => $composition->id,
-                    'item_id' => $prioCarruselItem['item_id'],
-                ]);
+    
+                PrioCarrusel::updateOrCreate(
+                    [
+                        'composition_id' => $composition->id,
+                        'item_id' => $prioCarruselItem['item_id'],
+                    ]
+                );
             }
 
-            // Validar y Insertar augments
             $tierLimits = [
                 1 => 3,
                 2 => 3,
                 3 => 3
             ];
-
+    
             $validAugmentsData = [
                 1 => [],
                 2 => [],
                 3 => []
             ];
-
+    
             foreach ($augmentsData as $tier => $augmentIds) {
                 if (!isset($tierLimits[$tier])) {
                     throw new Exception("Invalid tier specified.");
                 }
-
+    
                 if (count($augmentIds) > $tierLimits[$tier]) {
                     throw new Exception("Cannot have more than {$tierLimits[$tier]} augments for tier {$tier}.");
                 }
-
+    
                 foreach ($augmentIds as $augmentId) {
                     $augment = Augment::findOrFail($augmentId);
                     if ($augment->tier != $tier) {
@@ -300,19 +372,22 @@ class Composition extends Model
                     $validAugmentsData[$tier][] = $augmentId;
                 }
             }
-
+    
             foreach ($validAugmentsData as $tier => $augmentIds) {
                 foreach ($augmentIds as $augmentId) {
-                    AugmentComp::create([
-                        'composition_id' => $composition->id,
-                        'augment_id' => $augmentId,
-                    ]);
+                    AugmentComp::updateOrCreate(
+                        [
+                            'composition_id' => $composition->id,
+                            'augment_id' => $augmentId
+                        ]
+                    );
                 }
             }
-
+    
             return $composition;
         });
     }
+    
 
     public function deleteComposition()
     {
@@ -323,6 +398,7 @@ class Composition extends Model
             $this->prioCarrusel()->delete();
             $this->augments()->delete();
             $this->userCompo()->delete();
+            $this->formationItems()->delete();
 
             $this->delete();
 
@@ -333,20 +409,27 @@ class Composition extends Model
         }
     }
 
-    public static function getComposition($typeSynergy = null)
+    public static function getComposition($tier = null, $synergyName = null)
     {
         $query = self::query();
-        
-        if ($typeSynergy) {
-            $query->where('type', $typeSynergy);
+    
+        $query->with([
+            'formations.champion.synergies',
+            'formations.items',
+            'augments.augment',
+        ]);
+    
+        if ($tier) {
+            $query->where('tier', $tier);
         }
     
-        // Asegúrate de que las relaciones están bien definidas en los modelos relacionados
-        return $query->with([
-            'formations.champion.synergies',
-            'formations.items', // Cargar los items directamente desde la relación
-            'augments',
-        ])->get();
+        if ($synergyName) {
+            $query->whereHas('formations.champion.synergies', function ($q) use ($synergyName) {
+                $q->where('name', 'like', '%' . $synergyName . '%');
+            });
+        }
+    
+        return $query->get();
     }
 }
 

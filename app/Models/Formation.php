@@ -25,5 +25,10 @@ class Formation extends Model
     {
         return $this->belongsTo(Item::class, 'item_id');
     }
+    
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'formation_item', 'formation_id', 'item_id');
+    }
 
 }
