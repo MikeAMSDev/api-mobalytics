@@ -6,6 +6,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompositionDetailedResource extends JsonResource
 {
+    protected $includeUserInfo;
+
+    public function __construct($resource, $includeUserInfo = false)
+    {
+        parent::__construct($resource);
+        $this->includeUserInfo = $includeUserInfo;
+    }
+
     public function toArray($request)
     {
         $formationsByChampionAndSlot = $this->formations->groupBy(function ($formation) {
@@ -15,7 +23,7 @@ class CompositionDetailedResource extends JsonResource
             $items = $group->flatMap(function ($formation) {
                 return $formation->items;
             });
-
+    
             return [
                 'champion' => [
                     'id' => $champion->id ?? null,
@@ -45,30 +53,29 @@ class CompositionDetailedResource extends JsonResource
                 'slot_table' => $group->first()->slot_table ?? null,
             ];
         });
-
+    
         $formationsArray = $formationsByChampionAndSlot->values();
-
+    
         $augmentsWithDetails = $this->augments->map(function ($augmentComp) {
             return new AugmentDetailedResource($augmentComp->augment);
         });
-
+    
         $augmentsGroupedByTier = $augmentsWithDetails->groupBy('tier');
-
+    
         $synergyCounts = $this->formations->flatMap(function ($formation) {
             return $formation->champion->synergies;
         })->groupBy('name')->map(function ($synergies, $name) {
-
             $firstSynergy = $synergies->first();
-            
             return [
                 'count' => $synergies->count(),
                 'img' => $firstSynergy ? url('images/synergies/' . $firstSynergy->icon_synergy) : null,
             ];
         });
 
-        return [
+        $response = [
             'id' => $this->id,
             'name' => $this->name,
+            'likes' => $this->likes,
             'description' => $this->description,
             'playing_style' => $this->playing_style,
             'tier' => $this->tier,
@@ -84,13 +91,15 @@ class CompositionDetailedResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
-    }
 
-    public function with($request)
-    {
-        return [
-            'status' => 'success',
-            'message' => 'Composition retrieved successfully',
-        ];
+        if ($this->includeUserInfo) {
+            $user = $this->users->first();
+            $response['user'] = [
+                'name' => $user->name ?? null,
+            ];
+            $response['last_updated'] = $this->updated_at->toDateTimeString();
+        }
+    
+        return $response;
     }
 }

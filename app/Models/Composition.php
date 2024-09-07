@@ -11,7 +11,7 @@ class Composition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','name', 'synergy', 'description','tier','difficulty','playing_style', 'champ_compo', 'augments_id','formation_id']; 
+    protected $fillable = ['id','name', 'description','tier','difficulty','playing_style','likes']; 
 
     public function user()
     {
@@ -50,6 +50,11 @@ class Composition extends Model
     public function userCompo()
     {
         return $this->hasOne(UserCompo::class, 'composition_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_compo', 'composition_id', 'user_id');
     }
 
     public function prioCarrusel()
@@ -409,20 +414,25 @@ class Composition extends Model
         }
     }
 
-    public static function getComposition($tier = null, $synergyName = null)
+    public static function getComposition($tier = null, $synergyName = null, $userId = null)
     {
-        $query = self::query();
+        $query = self::query()
+            ->join('user_compo', 'user_compo.composition_id', '=', 'compositions.id')
+            ->select('compositions.*')
+            ->when($userId, function ($q) use ($userId) {
+                return $q->where('user_compo.user_id', $userId);
+            });
     
         $query->with([
             'formations.champion.synergies',
             'formations.items',
             'augments.augment',
         ]);
-    
+
         if ($tier) {
-            $query->where('tier', $tier);
+            $query->where('compositions.tier', $tier);
         }
-    
+
         if ($synergyName) {
             $query->whereHas('formations.champion.synergies', function ($q) use ($synergyName) {
                 $q->where('name', 'like', '%' . $synergyName . '%');
@@ -431,5 +441,67 @@ class Composition extends Model
     
         return $query->get();
     }
+
+    public static function getCommunityComposition($tier = null, $synergyName = null, $sortBy = null)
+    {
+        $query = self::query();
+    
+        $query->with([
+            'formations.champion.synergies',
+            'formations.items',
+            'augments.augment',
+            'users', // Eager load the users relationship
+        ]);
+
+        if ($synergyName) {
+            $query->whereHas('formations.champion.synergies', function ($q) use ($synergyName) {
+                $q->where('name', 'like', '%' . $synergyName . '%');
+            });
+        }
+
+        switch ($sortBy) {
+            case 'likes':
+                $query->orderBy('likes', 'desc');
+                break;
+    
+            case 'created_at':
+                $query->orderBy('created_at', 'desc');
+                break;
+    
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+    
+        return $query->get();
+    }
+
+    public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'composition_likes');
+    }
+
+    public function isLikedBy(User $user)
+    {
+        return $this->likedByUsers()->where('user_id', $user->id)->exists();
+    }
+
+    public function addLike()
+    {
+        $this->likes++;
+        $this->save();
+    }
+    
+    public function removeLike()
+    {
+        $this->likes = max(0, $this->likes - 1);
+        $this->save();
+    }
+
+    public function compositionLikes()
+    {
+        return $this->hasMany(CompositionLike::class);
+    }
+
 }
 

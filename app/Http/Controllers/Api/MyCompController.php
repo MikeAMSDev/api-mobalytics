@@ -10,19 +10,25 @@ use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\UpdateCompositionRequest;
 use App\Http\Resources\CompositionResource;
+use Illuminate\Support\Facades\Auth; 
 use Exception;
 
 class MyCompController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
         try {
-
+            if ($id && $id != Auth::id()) {
+                return response()->json([
+                    'error' => 'Unauthorized access.'
+                ], 403);
+            }
+    
             $tier = $request->query('tier');
             $synergyName = $request->query('synergy');
 
-            $synergies = Composition::getComposition($tier, $synergyName);
+            $synergies = Composition::getComposition($tier, $synergyName, $id);
     
             if ($synergies->isEmpty()) {
                 return response()->json([
@@ -33,7 +39,6 @@ class MyCompController extends Controller
             return CompositionDetailedResource::collection($synergies);
     
         } catch (Exception $e) {
-
             return response()->json([
                 'error' => $e->getMessage()
             ], 400);
@@ -72,7 +77,7 @@ class MyCompController extends Controller
     public function destroy($id)
     {
         try {
-            // Buscar la composición por ID y eliminarla
+
             $composition = Composition::findOrFail($id);
             $composition->deleteComposition();
 

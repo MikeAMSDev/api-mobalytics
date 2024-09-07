@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\AdminSynergyController;
 use App\Http\Controllers\Api\AugmentController;
 use App\Http\Controllers\Api\AdminAugmentController;
 use App\Http\Controllers\Api\ChampionController;
+use App\Http\Controllers\Api\CommunityCompController;
 use App\Http\Controllers\Api\TeamBuilderController;
 use App\Http\Controllers\Api\MyCompController;
 use App\Models\Augment;
@@ -102,9 +103,14 @@ Route::group(['prefix' => 'comp-builder'], function () {
 });
 
 Route::group(['prefix' => 'my-comps', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/', [MyCompController::class, 'index']);
+    Route::get('/{id}', [MyCompController::class, 'index']);
     Route::put('/update/{id}', [MyCompController::class, 'update']);
     Route::delete('/delete/{id}', [MyCompController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'community-comps'], function () {
+    Route::get('/', [CommunityCompController::class, 'index']);
+    Route::post('/{id}/like', [CommunityCompController::class, 'toggleLike'])->middleware(['auth:sanctum']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);
