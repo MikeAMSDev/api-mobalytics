@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class Composition extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','name', 'description','tier','difficulty','playing_style','likes']; 
+    protected $fillable = ['id','name', 'description','tier','difficulty','playing_style','likes', 'type']; 
 
     public function user()
     {
@@ -77,11 +78,29 @@ class Composition extends Model
         return $this->augments()->where('tier', $tier)->pluck('id');
     }
 
+    public function compositionLikes()
+    {
+        return $this->hasMany(CompositionLike::class);
+    }
+
+
     public function formationItems()
     {
         return $this->hasMany(FormationItem::class, 'compo_id');
     }
 
+    public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'composition_likes');
+    }
+
+    public static function getUserCompositionById($compId, $userId)
+    {
+        return self::where('id', $compId)
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })->first();
+    }
     public static function createWithFormations(array $compositionData, array $formationsData, array $prioCarruselData, array $augmentsData, int $userId)
     {
         $championCounts = array_count_values(array_column($formationsData, 'champion_id'));
@@ -442,23 +461,24 @@ class Composition extends Model
         return $query->get();
     }
 
-    public static function getCommunityComposition($tier = null, $synergyName = null, $sortBy = null)
+    public static function getCommunityComposition($synergyName = null, $sortBy = null)
     {
-        $query = self::query();
+        $query = self::query()
+            ->where('type', 'publish');
     
         $query->with([
             'formations.champion.synergies',
             'formations.items',
             'augments.augment',
-            'users', // Eager load the users relationship
+            'users',
         ]);
-
+    
         if ($synergyName) {
             $query->whereHas('formations.champion.synergies', function ($q) use ($synergyName) {
                 $q->where('name', 'like', '%' . $synergyName . '%');
             });
         }
-
+    
         switch ($sortBy) {
             case 'likes':
                 $query->orderBy('likes', 'desc');
@@ -474,11 +494,6 @@ class Composition extends Model
         }
     
         return $query->get();
-    }
-
-    public function likedByUsers()
-    {
-        return $this->belongsToMany(User::class, 'composition_likes');
     }
 
     public function isLikedBy(User $user)
@@ -498,9 +513,19 @@ class Composition extends Model
         $this->save();
     }
 
-    public function compositionLikes()
+    public function changeType($type)
     {
-        return $this->hasMany(CompositionLike::class);
+        $validTypes = ['private', 'publish'];
+        if (!in_array($type, $validTypes)) {
+            return 'Invalid type provided.';
+        }
+
+        if ($this->userCompo()->where('user_id', Auth::id())->doesntExist()) {
+            return 'Unauthorized: You do not own this composition.';
+        }
+
+        $this->type = $type;
+        return $this->save();
     }
 
 }

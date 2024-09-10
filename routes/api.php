@@ -103,14 +103,19 @@ Route::group(['prefix' => 'comp-builder'], function () {
 });
 
 Route::group(['prefix' => 'my-comps', 'middleware' => ['auth:sanctum']], function () {
-    Route::get('/{id}', [MyCompController::class, 'index']);
+    Route::get('/', [MyCompController::class, 'index']);
+    Route::get('/{id}', [MyCompController::class, 'show']);
     Route::put('/update/{id}', [MyCompController::class, 'update']);
     Route::delete('/delete/{id}', [MyCompController::class, 'destroy']);
+    Route::get('/pdf/{id}', [MyCompController::class, 'generateMyCompPDF']);
+    Route::patch('/change_type/{id}', [MyCompController::class, 'changeCompositionType']);
 });
 
 Route::group(['prefix' => 'community-comps'], function () {
     Route::get('/', [CommunityCompController::class, 'index']);
+    Route::get('/{id}', [CommunityCompController::class, 'show']);
     Route::post('/{id}/like', [CommunityCompController::class, 'toggleLike'])->middleware(['auth:sanctum']);
+    Route::get('/pdf/{id}', [CommunityCompController::class, 'generateCommunityCompPDF']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);
