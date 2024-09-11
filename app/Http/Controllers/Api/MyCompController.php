@@ -21,22 +21,20 @@ class MyCompController extends Controller
     public function index(Request $request)
     {
         try {
-
             $userId = Auth::id();
-        
             $tier = $request->query('tier');
             $synergyName = $request->query('synergy');
 
-            $synergies = Composition::getComposition($tier, $synergyName, $userId);
-        
-            if ($synergies->isEmpty()) {
+            $compositions = Composition::getCompositions($tier, $synergyName, $userId, null, false);
+    
+            if ($compositions->isEmpty()) {
                 return response()->json([
                     'message' => 'No compositions found with the provided filters.'
                 ], 404);
             }
-        
-            return CompositionDetailedResource::collection($synergies);
-        
+    
+            return CompositionDetailedResource::collection($compositions);
+            
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

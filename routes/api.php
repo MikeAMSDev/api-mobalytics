@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\ChampionController;
 use App\Http\Controllers\Api\CommunityCompController;
 use App\Http\Controllers\Api\TeamBuilderController;
 use App\Http\Controllers\Api\MyCompController;
+use App\Http\Controllers\Api\MetaCompController;
 use App\Models\Augment;
 
 /*
@@ -116,6 +117,10 @@ Route::group(['prefix' => 'community-comps'], function () {
     Route::get('/{id}', [CommunityCompController::class, 'show']);
     Route::post('/{id}/like', [CommunityCompController::class, 'toggleLike'])->middleware(['auth:sanctum']);
     Route::get('/pdf/{id}', [CommunityCompController::class, 'generateCommunityCompPDF']);
+});
+
+Route::group(['prefix' => 'meta-comps'], function () {
+    Route::get('/', [MetaCompController::class, 'index']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

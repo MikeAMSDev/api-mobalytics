@@ -19,19 +19,17 @@ class CommunityCompController extends Controller
         try {
             $synergyName = $request->query('synergy');
             $sortBy = $request->query('sort_by');
-            $includeUserInfo = true;
+
+            $compositions = Composition::getCompositions(null, $synergyName, null, $sortBy, true, false);
     
-            $synergies = Composition::getCommunityComposition($synergyName, $sortBy);
-    
-            if ($synergies->isEmpty()) {
+            if ($compositions->isEmpty()) {
                 return response()->json([
-                    'message' => 'No compositions found with the provided filters.'
+                    'message' => 'No published compositions found with the provided filters.'
                 ], 404);
             }
     
-            return CompositionDetailedResource::collection($synergies->map(function ($synergy) use ($includeUserInfo) {
-                return new CompositionDetailedResource($synergy, $includeUserInfo);
-            }));
+            return CompositionDetailedResource::collection($compositions);
+    
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

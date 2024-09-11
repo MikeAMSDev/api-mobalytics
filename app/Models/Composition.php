@@ -433,19 +433,30 @@ class Composition extends Model
         }
     }
 
-    public static function getComposition($tier = null, $synergyName = null, $userId = null)
+    public static function getCompositions($tier = null, $synergyName = null, $userId = null, $sortBy = null, $publishedOnly = false, $metaOnly = false)
     {
-        $query = self::query()
-            ->join('user_compo', 'user_compo.composition_id', '=', 'compositions.id')
-            ->select('compositions.*')
-            ->when($userId, function ($q) use ($userId) {
-                return $q->where('user_compo.user_id', $userId);
-            });
-    
+
+        $query = self::query();
+
+        if ($publishedOnly) {
+            $query->where('type', 'publish');
+        }
+
+        if ($metaOnly) {
+            $query->where('type', 'meta');
+        }
+
+        if ($userId) {
+            $query->join('user_compo', 'user_compo.composition_id', '=', 'compositions.id')
+                  ->select('compositions.*')
+                  ->where('user_compo.user_id', $userId);
+        }
+
         $query->with([
             'formations.champion.synergies',
             'formations.items',
             'augments.augment',
+            'users',
         ]);
 
         if ($tier) {
@@ -457,42 +468,19 @@ class Composition extends Model
                 $q->where('name', 'like', '%' . $synergyName . '%');
             });
         }
-    
-        return $query->get();
-    }
 
-    public static function getCommunityComposition($synergyName = null, $sortBy = null)
-    {
-        $query = self::query()
-            ->where('type', 'publish');
-    
-        $query->with([
-            'formations.champion.synergies',
-            'formations.items',
-            'augments.augment',
-            'users',
-        ]);
-    
-        if ($synergyName) {
-            $query->whereHas('formations.champion.synergies', function ($q) use ($synergyName) {
-                $q->where('name', 'like', '%' . $synergyName . '%');
-            });
-        }
-    
         switch ($sortBy) {
             case 'likes':
                 $query->orderBy('likes', 'desc');
                 break;
-    
             case 'created_at':
                 $query->orderBy('created_at', 'desc');
                 break;
-    
             default:
                 $query->orderBy('created_at', 'desc');
                 break;
         }
-    
+
         return $query->get();
     }
 
