@@ -27,7 +27,7 @@ class Item extends Model
 
     public function champions()
     {
-        return $this->belongsToMany(Champion::class);
+        return $this->belongsToMany(Champion::class, 'champion_item', 'item_id', 'champion_id');
     }
 
     public function recipe()
@@ -277,5 +277,27 @@ class Item extends Model
         });
 
         return $response->filter()->unique('name')->values();
+    }
+
+    public static function getItemsByName($itemName = null)
+    {
+        $query = self::with([
+            'recipes.items',
+            'craftedItems',
+        ]);
+
+        if ($itemName) {
+            $items = self::where('name', 'LIKE', '%' . $itemName . '%')->get();
+
+            if ($items->isEmpty()) {
+                return self::getItemsWithRequiredItems();
+            } else {
+                return self::getItemsWithRequiredItems()->filter(function ($item) use ($itemName) {
+                    return stripos($item['name'], $itemName) !== false;
+                });
+            }
+        } else {
+            return self::getItemsWithRequiredItems();
+        }
     }
 }

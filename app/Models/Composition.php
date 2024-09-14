@@ -516,5 +516,124 @@ class Composition extends Model
         return $this->save();
     }
 
+    public static function calculateSynergyActivation(array $formationsData)
+    {
+        $synergies = [];
+
+        foreach ($formationsData as $formation) {
+            $champion = Champion::with(['synergies'])->find($formation['champion_id']);
+            
+            if (!$champion) {
+                continue;
+            }
+
+            foreach ($champion->synergies as $synergy) {
+                if (!isset($synergies[$synergy->id])) {
+                    $synergies[$synergy->id] = [
+                        'name' => $synergy->name,
+                        'type' => $synergy->type,
+                        'description' => $synergy->description,
+                        'icon_synergy' => $synergy->icon_synergy,
+                        'activation' => json_decode($synergy->synergy_activation, true),
+                        'champion_count' => 0,
+                        'highlighted' => [],
+                        'emblem_items' => [],
+                        'color' => 'default',
+                    ];
+                }
+    
+                $synergies[$synergy->id]['champion_count']++;
+            }
+
+            foreach ($formation['items'] as $itemId) {
+                $item = Item::find($itemId);
+                if ($item && str_ends_with($item->name, 'Emblem')) {
+                    $synergyName = explode(' ', $item->name)[0];
+    
+                    $synergyFound = false;
+                    foreach ($synergies as $synergyId => $synergyData) {
+                        if (strtolower($synergyData['name']) === strtolower($synergyName)) {
+                            $synergies[$synergyId]['emblem_items'][] = $item->id;
+                            $synergies[$synergyId]['champion_count']++;
+                            $synergyFound = true;
+                            break;
+                        }
+                    }
+    
+                    if (!$synergyFound) {
+                        $synergy = Synergy::where('name', $synergyName)->first();
+                        if ($synergy) {
+                            $synergies[$synergy->id] = [
+                                'name' => $synergy->name,
+                                'type' => $synergy->type,
+                                'description' => $synergy->description,
+                                'icon_synergy' => $synergy->icon_synergy,
+                                'activation' => json_decode($synergy->synergy_activation, true),
+                                'champion_count' => 1,
+                                'highlighted' => [],
+                                'emblem_items' => [$item->id],
+                                'color' => 'default',
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($synergies as $synergyId => $synergyData) {
+            $championCount = $synergyData['champion_count'];
+            $lastActiveColor = 'default';
+            
+            foreach ($synergyData['activation'] as $activationIndex => $activation) {
+                foreach ($activation as $requiredChampions => $percentage) {
+                    $color = self::getColorForActivation($synergyData['name'], $activationIndex, count($synergyData['activation']));
+
+                    $highlighted = [
+                        'required' => $requiredChampions,
+                        'percentage' => $percentage,
+                        'active' => $championCount >= $requiredChampions,
+                        'color' => $color,
+                        'count' => $championCount
+                    ];
+
+                    if ($highlighted['active']) {
+                        $lastActiveColor = $highlighted['color'];
+                    }
+
+                    $synergies[$synergyId]['highlighted'][] = $highlighted;
+                }
+            }
+
+            $synergies[$synergyId]['color'] = $lastActiveColor;
+        }
+
+        return $synergies;
+    }
+    
+    public static function getColorForActivation($synergyName, $activationIndex, $totalActivations) {
+
+        $defaultColors = [
+            1 => ['green-yellow'],
+            2 => ['brown', 'green-yellow'],
+            3 => ['brown', 'grey', 'green-yellow'],
+            4 => ['brown', 'grey', 'green-yellow', 'green-yellow'],
+        ];
+
+        $specialCases = [
+            'Eldritch' => [3 => 'multicolor'],
+            'Portal' => [3 => 'multicolor'],
+            'Preserver' => [2 => 'grey'],
+            'Honeymancy' => [1 => 'green-yellow'],
+            'Dragon' => [0 => 'grey'],
+        ];
+
+        $colors = $defaultColors[$totalActivations] ?? ['green-yellow'];
+
+        if (isset($specialCases[$synergyName][$activationIndex])) {
+            return $specialCases[$synergyName][$activationIndex];
+        }
+
+        return $colors[$activationIndex] ?? 'green-yellow';
+    }
 }
 

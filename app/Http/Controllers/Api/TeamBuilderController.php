@@ -15,7 +15,9 @@ use App\Http\Resources\SimpleChampionResource;
 use App\Http\Resources\SimpleItemResource;
 use App\Http\Requests\FilterChampionRequest;
 use App\Http\Requests\FilterItemRequest;
+use App\Http\Requests\FormationSynergyRequest;
 use App\Http\Requests\UpdateCompositionRequest;
+use App\Http\Resources\SynergyActivationResource;
 use App\Http\Resources\CompositionResource;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
@@ -79,5 +81,14 @@ class TeamBuilderController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function calculateSynergy(FormationSynergyRequest $request)
+    {
+        $formationsData = $request->input('formationsData');
+
+        $synergies = Composition::calculateSynergyActivation($formationsData);
+
+        return response()->json($synergies);
     }
 }
