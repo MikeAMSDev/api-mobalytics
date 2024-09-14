@@ -10,24 +10,30 @@ use App\Http\Requests\BasicItemRequest;
 
 class ItemController extends Controller
 {
-public function index(Request $request)
-{
-    $typeObject = $request->input('type_object');
-    $items = Item::getItemsWithRequiredItems($typeObject);
+    public function index(Request $request)
+    {
+        $typeObject = $request->input('type_object');
+        $items = Item::getItemsWithRequiredItems($typeObject);
 
-    return response()->json($items);
-}
+        return response()->json($items);
+    }
 
-public function recipes(BasicItemRequest $request)
-{
-    $name = $request->input('name');
+    public function recipes(BasicItemRequest $request)
+    {
+        $name = $request->input('name');
 
-    $basicItem = Item::where('type_object', 'Basic')
-        ->where('name', $name)
-        ->first();
+        $basicItem = Item::where('type_object', 'Basic')
+            ->where('name', $name)
+            ->first();
 
-    $response = $basicItem->getRecipeDetails();
+        $response = $basicItem->getRecipeDetails();
 
-    return response()->json($response);
-}
+        return response()->json($response);
+    }
+
+    public function getItemsByName(Request $request, $itemName = null)
+    {
+        $items = Item::getItemsByName($itemName);
+        return response()->json($items);
+    }
 }

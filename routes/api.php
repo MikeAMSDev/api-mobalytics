@@ -83,6 +83,7 @@ Route::group(['prefix' => 'user'], function () {
 Route::group(['prefix' => 'item'], function () {
     Route::get('/', [ItemController::class, 'index']);
     Route::get('/recipe', [ItemController::class, 'recipes']);
+    Route::get('/{itemName}', [ItemController::class, 'getItemsByName']);
 });
 
 Route::group(['prefix' => 'synergy'], function () {
@@ -101,6 +102,7 @@ Route::group(['prefix' => 'champion'], function () {
 Route::group(['prefix' => 'comp-builder'], function () {
     Route::get('/', [TeamBuilderController::class, 'index']);
     Route::post('/create', [TeamBuilderController::class, 'create'])->middleware(['auth:sanctum']);
+    Route::post('/synergy-activation', [TeamBuilderController::class, 'calculateSynergy']);
 });
 
 Route::group(['prefix' => 'my-comps', 'middleware' => ['auth:sanctum']], function () {

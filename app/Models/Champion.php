@@ -25,6 +25,7 @@ class Champion extends Model
     {
         return $this->belongsToMany(Item::class, 'champion_item', 'champion_id', 'item_id');
     }
+
     public function synergies()
     {
         return $this->belongsToMany(Synergy::class, 'champion_synergy', 'champion_id', 'synergy_id');
@@ -123,6 +124,13 @@ class Champion extends Model
         }
         
         return $champion;
+    }
+
+    public static function getChampionsWithSynergies(array $championIds)
+    {
+        return self::with('synergies')
+                ->whereIn('id', $championIds)
+                ->get();
     }
 
 }
