@@ -519,14 +519,15 @@ class Composition extends Model
     public static function calculateSynergyActivation(array $formationsData)
     {
         $synergies = [];
-
+        $championIdsCounted = []; // Mantener un registro de los campeones ya contados para cada sinergia
+    
         foreach ($formationsData as $formation) {
             $champion = Champion::with(['synergies'])->find($formation['champion_id']);
             
             if (!$champion) {
                 continue;
             }
-
+    
             foreach ($champion->synergies as $synergy) {
                 if (!isset($synergies[$synergy->id])) {
                     $synergies[$synergy->id] = [
@@ -541,15 +542,25 @@ class Composition extends Model
                         'color' => 'default',
                     ];
                 }
+                
+                // Registrar el ID del campeón para la sinergia específica
+                $synergyId = $synergy->id;
+                if (!isset($championIdsCounted[$synergyId])) {
+                    $championIdsCounted[$synergyId] = [];
+                }
     
-                $synergies[$synergy->id]['champion_count']++;
+                // Solo contar el campeón si no ha sido contado antes para esta sinergia
+                if (!in_array($formation['champion_id'], $championIdsCounted[$synergyId])) {
+                    $synergies[$synergyId]['champion_count']++;
+                    $championIdsCounted[$synergyId][] = $formation['champion_id'];
+                }
             }
-
+    
             foreach ($formation['items'] as $itemId) {
                 $item = Item::find($itemId);
                 if ($item && str_ends_with($item->name, 'Emblem')) {
                     $synergyName = explode(' ', $item->name)[0];
-    
+        
                     $synergyFound = false;
                     foreach ($synergies as $synergyId => $synergyData) {
                         if (strtolower($synergyData['name']) === strtolower($synergyName)) {
@@ -559,7 +570,7 @@ class Composition extends Model
                             break;
                         }
                     }
-    
+        
                     if (!$synergyFound) {
                         $synergy = Synergy::where('name', $synergyName)->first();
                         if ($synergy) {
@@ -579,7 +590,7 @@ class Composition extends Model
                 }
             }
         }
-
+    
         foreach ($synergies as $synergyId => $synergyData) {
             $championCount = $synergyData['champion_count'];
             $lastActiveColor = 'default';
@@ -587,7 +598,7 @@ class Composition extends Model
             foreach ($synergyData['activation'] as $activationIndex => $activation) {
                 foreach ($activation as $requiredChampions => $percentage) {
                     $color = self::getColorForActivation($synergyData['name'], $activationIndex, count($synergyData['activation']));
-
+    
                     $highlighted = [
                         'required' => $requiredChampions,
                         'percentage' => $percentage,
@@ -595,18 +606,18 @@ class Composition extends Model
                         'color' => $color,
                         'count' => $championCount
                     ];
-
+    
                     if ($highlighted['active']) {
                         $lastActiveColor = $highlighted['color'];
                     }
-
+    
                     $synergies[$synergyId]['highlighted'][] = $highlighted;
                 }
             }
-
+    
             $synergies[$synergyId]['color'] = $lastActiveColor;
         }
-
+    
         return $synergies;
     }
     
