@@ -68,15 +68,18 @@ class MyCompController extends Controller
     public function update(UpdateCompositionRequest $request, $id)
     {
         try {
-            $composition = Composition::updateComposition(
+            $result = Composition::updateComposition(
                 $id,
                 $request->validated(),
                 $request->input('formations', []),
                 $request->input('prio_carrusel', []),
                 $request->input('augments', [])
             );
-    
-            return new CompositionResource($composition);
+
+            return response()->json([
+                'composition' => new CompositionResource($result['composition']),
+                'synergies' => $result['synergies'],
+            ], 200);
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => 'Validation failed',
