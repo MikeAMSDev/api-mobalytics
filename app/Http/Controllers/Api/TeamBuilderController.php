@@ -54,28 +54,29 @@ class TeamBuilderController extends Controller
     public function create(CreateCompositionRequest $request)
     {
         try {
-            $composition = Composition::createWithFormations(
+            $result = Composition::createWithFormations(
                 $request->validated(),
                 $request->input('formations', []),
                 $request->input('prio_carrusel', []),
                 $request->input('augments', []),
                 auth()->id()
             );
-
-            return new CompositionResource($composition);
+    
+            return response()->json([
+                'composition' => new CompositionResource($result['composition']),
+                'synergies' => $result['synergies']
+            ]);
         } catch (ValidationException $e) {
             return response()->json([
                 'error' => 'Validation failed',
                 'messages' => $e->errors()
             ], 422);
         } catch (QueryException $e) {
-    
             return response()->json([
                 'error' => 'An error occurred while saving the composition.',
                 'message' => $e->getMessage()
             ], 500);
         } catch (\Exception $e) {
-
             return response()->json([
                 'error' => 'An unexpected error occurred.',
                 'message' => $e->getMessage()

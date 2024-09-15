@@ -101,6 +101,7 @@ class Composition extends Model
                 $query->where('user_id', $userId);
             })->first();
     }
+
     public static function createWithFormations(array $compositionData, array $formationsData, array $prioCarruselData, array $augmentsData, int $userId)
     {
         $championCounts = array_count_values(array_column($formationsData, 'champion_id'));
@@ -145,7 +146,7 @@ class Composition extends Model
     
         return DB::transaction(function () use ($compositionData, $formationsData, $prioCarruselData, $augmentsData, $userId) {
             $composition = self::create($compositionData);
-    
+
             $championItemCounts = [];
             foreach ($formationsData as $index => $formationData) {
                 $championId = $formationData['champion_id'];
@@ -173,13 +174,13 @@ class Composition extends Model
                         'star' => $formationData['star'],
                         'item_id' => $itemId
                     ]);
-
+    
                     $existingEntry = DB::table('formation_item')
                         ->where('formation_id', $formation->id)
                         ->where('item_id', $itemId)
                         ->where('compo_id', $composition->id)
                         ->exists();
-                
+    
                     if (!$existingEntry) {
                         DB::table('formation_item')->insert([
                             'formation_id' => $formation->id,
@@ -192,29 +193,13 @@ class Composition extends Model
                 }
 
                 if (empty($itemIds)) {
-                    $formation = Formation::create([
+                    Formation::create([
                         'champion_id' => $championId,
                         'slot_table' => $formationData['slot_table'],
                         'compo_id' => $composition->id,
                         'star' => $formationData['star'],
                         'item_id' => null
                     ]);
-
-                    $existingEntry = DB::table('formation_item')
-                        ->where('formation_id', $formation->id)
-                        ->whereNull('item_id')
-                        ->where('compo_id', $composition->id)
-                        ->exists();
-                
-                    if (!$existingEntry) {
-                        DB::table('formation_item')->insert([
-                            'formation_id' => $formation->id,
-                            'item_id' => null,
-                            'compo_id' => $composition->id,
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                    }
                 }
             }
 
@@ -238,8 +223,13 @@ class Composition extends Model
                 'user_id' => $userId,
                 'composition_id' => $composition->id,
             ]);
-    
-            return $composition;
+
+            $synergies = self::calculateSynergyActivation($formationsData);
+
+            return [
+                'composition' => $composition,
+                'synergies' => $synergies
+            ];
         });
     }
     public static function updateComposition($id, array $compositionData, array $formationsData, array $prioCarruselData, array $augmentsData)
@@ -298,18 +288,10 @@ class Composition extends Model
                             'compo_id' => $composition->id,
                             'star' => $star,
                             'item_id' => $itemId
-                        ],
-                        [
-                            'item_id' => $itemId
                         ]
                     );
-
+    
                     FormationItem::updateOrCreate(
-                        [
-                            'formation_id' => $formation->id,
-                            'item_id' => $itemId,
-                            'compo_id' => $composition->id
-                        ],
                         [
                             'formation_id' => $formation->id,
                             'item_id' => $itemId,
@@ -319,7 +301,6 @@ class Composition extends Model
                 }
     
                 if (empty($itemIds)) {
-
                     $formation = Formation::updateOrCreate(
                         [
                             'champion_id' => $championId,
@@ -327,18 +308,10 @@ class Composition extends Model
                             'compo_id' => $composition->id,
                             'star' => $star,
                             'item_id' => null
-                        ],
-                        [
-                            'item_id' => null
                         ]
                     );
-
+    
                     FormationItem::updateOrCreate(
-                        [
-                            'formation_id' => $formation->id,
-                            'item_id' => null,
-                            'compo_id' => $composition->id
-                        ],
                         [
                             'formation_id' => $formation->id,
                             'item_id' => null,
@@ -407,11 +380,15 @@ class Composition extends Model
                     );
                 }
             }
-    
-            return $composition;
+
+            $synergies = self::calculateSynergyActivation($formationsData);
+
+            return [
+                'composition' => $composition,
+                'synergies' => $synergies,
+            ];
         });
     }
-    
 
     public function deleteComposition()
     {
@@ -519,7 +496,7 @@ class Composition extends Model
     public static function calculateSynergyActivation(array $formationsData)
     {
         $synergies = [];
-        $championIdsCounted = []; // Mantener un registro de los campeones ya contados para cada sinergia
+        $championIdsCounted = [];
     
         foreach ($formationsData as $formation) {
             $champion = Champion::with(['synergies'])->find($formation['champion_id']);
@@ -542,21 +519,19 @@ class Composition extends Model
                         'color' => 'default',
                     ];
                 }
-                
-                // Registrar el ID del campeón para la sinergia específica
+
                 $synergyId = $synergy->id;
                 if (!isset($championIdsCounted[$synergyId])) {
                     $championIdsCounted[$synergyId] = [];
                 }
-    
-                // Solo contar el campeón si no ha sido contado antes para esta sinergia
+
                 if (!in_array($formation['champion_id'], $championIdsCounted[$synergyId])) {
                     $synergies[$synergyId]['champion_count']++;
                     $championIdsCounted[$synergyId][] = $formation['champion_id'];
                 }
             }
     
-            foreach ($formation['items'] as $itemId) {
+            foreach ($formation['item_ids'] as $itemId) {
                 $item = Item::find($itemId);
                 if ($item && str_ends_with($item->name, 'Emblem')) {
                     $synergyName = explode(' ', $item->name)[0];
