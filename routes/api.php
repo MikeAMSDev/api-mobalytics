@@ -123,6 +123,7 @@ Route::group(['prefix' => 'community-comps'], function () {
 
 Route::group(['prefix' => 'meta-comps'], function () {
     Route::get('/', [MetaCompController::class, 'index']);
+    Route::get('/{id}', [MetaCompController::class, 'show']);
 });
 
 Route::get('/index', [AuthController::class, 'index'])->middleware(['auth:sanctum']);

@@ -35,4 +35,32 @@ class MetaCompController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        try {
+            $composition = Composition::where('id', $id)
+                ->where('type', 'meta')
+                ->firstOrFail();
+
+            $formations = $composition->formations()->with('items')->get();
+
+            $formationsData = $formations->map(function ($formation) {
+                return [
+                    'champion_id' => $formation->champion_id,
+                    'item_ids' => $formation->items->pluck('id')->toArray(),
+                ];
+            })->toArray();
+
+            $synergies = Composition::calculateSynergyActivation($formationsData);
+
+            return (new CompositionDetailedResource($composition))
+                ->additional(['synergies_activation' => $synergies]);
+    
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 400);
+        }
+    }
+
 }
