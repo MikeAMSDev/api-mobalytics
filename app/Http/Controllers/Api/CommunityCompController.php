@@ -44,8 +44,20 @@ class CommunityCompController extends Controller
                 ->where('type', 'publish')
                 ->firstOrFail();
 
-            return new CompositionDetailedResource($composition);
+            $formations = $composition->formations()->with('items')->get();
 
+            $formationsData = $formations->map(function ($formation) {
+                return [
+                    'champion_id' => $formation->champion_id,
+                    'item_ids' => $formation->items->pluck('id')->toArray(),
+                ];
+            })->toArray();
+
+            $synergies = Composition::calculateSynergyActivation($formationsData);
+
+            return (new CompositionDetailedResource($composition))
+                ->additional(['synergies_activation' => $synergies]);
+    
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
